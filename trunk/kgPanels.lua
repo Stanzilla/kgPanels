@@ -501,6 +501,15 @@ function kgPanels:ApplyLayout(layoutData)
 	end
 end
 --[[
+	Re-Parent a frame
+]]
+function kgPanels:ReParent(name,newParent,newAnchor)
+	if activeFrames[name] then
+		data = self.db.global.layouts[self.active][name]
+		self:ResetParent(activeFrames[name],data,name,newParent,newAnchor)
+	end
+end
+--[[
 	Grab an active frame
 ]]
 function kgPanels:FetchFrame(name)
@@ -585,7 +594,7 @@ function kgPanels:InitScripts(frame,name,frameData)
 	end
 end
 
-function kgPanels:ResetParent(frame,frameData,name)
+function kgPanels:ResetParent(frame,frameData,name,overrideParent,overrideAnchor)
 	local parent = parents[frameData.parent]
 	if not parent then
 		-- are we trying to parent ot one of our other layout frames?
@@ -599,6 +608,9 @@ function kgPanels:ResetParent(frame,frameData,name)
 			frame.missing_parent_at_load = true
 			frame:Hide()
 		end
+	end
+	if overrideParent then
+		parent = overrideParent
 	end
 	frame:SetParent(parent)
 	frame:ClearAllPoints()
@@ -623,7 +635,9 @@ function kgPanels:ResetParent(frame,frameData,name)
 		frame:SetScale(frameData.scale)
 	end
 	local anchor = parents[frameData.anchor]
-	
+	if overrideAnchor then
+		anchor = overrideAnchor
+	end
 	-- setup the kgPanel's anchor.  If anchor doesn't exist, we'l attach it to the UIParent for now
 	if anchor then
 		frame:SetPoint(frameData.anchorFrom,anchor,frameData.anchorTo,frameData.x,frameData.y)
@@ -655,7 +669,7 @@ function kgPanels:ResetTextures(frame,frameData)
 		frame.bg:SetTexture(frameData.bg_color.r,frameData.bg_color.g,frameData.bg_color.b,min(frameData.bg_color.a,alpha_override))
 	elseif frameData.bg_style == "GRADIENT" then
 		frame.bg:SetGradientAlpha(frameData.bg_orientation,frameData.bg_color.r,frameData.bg_color.g,frameData.bg_color.b,min(frameData.bg_color.a,alpha_override),frameData.gradient_color.r,frameData.gradient_color.g,frameData.gradient_color.b,min(frameData.gradient_color.a,alpha_override))
-		frame.bg:SetTexture(frameData.bg_color.r,frameData.bg_color.g,frameData.bg_color.b,1)
+		frame.bg:SetTexture(1,1,1,1)
 	end
 	if frameData.bg_texture and strlen(frameData.bg_texture) > 2 then
 		frame.bg:SetTexture(fetchArt(frameData.bg_texture,"background"))
@@ -706,6 +720,7 @@ function kgPanels:ResetFont(name,fontdata)
 	f.text:SetText(gsub(fontdata.text,'||','\124'))
 end
 function kgPanels:SetupScript(frame,hook,code,name,initial)
+	print("Setting up scripts for "..hook)
 	if not frame then return end
 	local code,subs = gsub(code, '||','\124')
 	if hook == "EVENT" and strlen(code) > 1 then
