@@ -486,7 +486,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 						desc = L["Color to use for the gradient."],
 						order = 18,
 						hasAlpha = true,
-						get = function() return panelData.gradient_color.r, panelData.gradient_color.g, panelData.gradient_color.g, panelData.gradient_color.a end,
+						get = function() return panelData.gradient_color.r, panelData.gradient_color.g, panelData.gradient_color.b, panelData.gradient_color.a end,
 						set = function(info,r,g,b,a)
 							panelData.gradient_color.r =r
 							panelData.gradient_color.g =g
