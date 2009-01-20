@@ -197,7 +197,7 @@ local function reInitLoad(frame,frameData,name)
 	if frameData.scripts then		
 	-- do onload first
 		if frameData.scripts["LOAD"] and not frame.onload_already_exected then
-			kgPanels:SetupScript(frame,"LOAD",frameData.scripts["LOAD"],name)
+			kgPanels:InitScripts(frame,name,frameData)
 			frame.onload_already_exected = true
 		end
 	end
