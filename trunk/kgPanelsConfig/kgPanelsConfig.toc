@@ -9,9 +9,10 @@
 ## X-License: GPL v2
 ## X-Email: sal.scotto@gmail.com
 ## OptionalDeps: Ace3, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets
-## X-Embeds: Ace3, AceGUI-3.0-SharedMediaWidgets
 
+#@no-lib-strip@
 embeds.xml
+#@end-no-lib-strip@
 Locales.xml
 kgPanelsConfig.lua
 kgPanelGuideFrame.lua

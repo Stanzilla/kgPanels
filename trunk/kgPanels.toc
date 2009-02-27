@@ -8,7 +8,9 @@
 ## X-Email: sal.scotto@gmail.com
 ## X-License: GPL v2
 ## OptionalDeps: Ace3, LibSharedMedia-3.0, LibDataBroker-1.1
-## X-Embeds: Ace3, LibSharedMedia-3.0
 
+#@no-lib-strip@
 embeds.xml
+#@end-no-lib-strip@
+
 kgPanels.lua
