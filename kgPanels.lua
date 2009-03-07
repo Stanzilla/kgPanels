@@ -282,6 +282,9 @@ local function recycleFrame(frame)
 	frame:SetScript("OnHide",nil)
 	frame:SetScript("OnEnter",nil)
 	frame:SetScript("OnLeave",nil)	
+	frame.onload_already_exected = false
+	frame.missing_parent_at_load = false
+	frame.missing_anchor_at_load = false
 	frameCache[frame] = true
 end
 local function injectArt()
@@ -720,7 +723,7 @@ function kgPanels:ResetFont(name,fontdata)
 	f.text:SetText(gsub(fontdata.text,'||','\124'))
 end
 function kgPanels:SetupScript(frame,hook,code,name,initial)
-	print("Setting up scripts for "..hook)
+	--self:Print("Setting up scripts for "..hook)
 	if not frame then return end
 	local code,subs = gsub(code, '||','\124')
 	if hook == "EVENT" and strlen(code) > 1 then
