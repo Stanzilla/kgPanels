@@ -193,13 +193,12 @@ local function crop(texture,top,left,bottom,right)
 	texture:SetTexCoord(ULx+top,ULy+left,LLx+bottom,LLy+left,URx+top,URy+right,LRx+bottom,LRx+right)
 end
 
-local function reInitLoad(frame,frameData,name)
+local function executeScripts(frame,frameData,name)
 	if frameData.scripts then		
-	-- do onload first
-		if frameData.scripts["LOAD"] and not frame.onload_already_exected then
-			kgPanels:InitScripts(frame,name,frameData)
-			frame.onload_already_exected = true
+		if frame.scripts_loaded then
+			return
 		end
+		kgPanels:InitScripts(frame,name,frameData)			
 	end
 end
 
@@ -224,7 +223,8 @@ local function reParentCheck(newframe)
 					if pf:IsShown() then activeFrames[frame]:Show();updateChildVisibility(activeFrames[frame]) end
 					missingParents[frame] = nil
 					checkFrames = checkFrames -1
-					reInitLoad(activeFrames[frame],kgPanels.db.global.layouts[kgPanels.active][frame],frame)
+					activeFrames[frame].missing_parent_at_load = false
+					executeScripts(activeFrames[frame],kgPanels.db.global.layouts[kgPanels.active][frame],frame)
 				end
 			end
 		elseif activeFrames[mparent] and activeFrames[mparent] ~= frame then -- check the list of self frames
@@ -233,7 +233,8 @@ local function reParentCheck(newframe)
 				if activeFrames[mparent]:IsShown() then activeFrames[frame]:Show();updateChildVisibility(activeFrames[frame]) end
 				missingParents[frame] = nil
 				checkFrames = checkFrames -1
-				reInitLoad(activeFrames[frame],kgPanels.db.global.layouts[kgPanels.active][frame],frame)
+				activeFrames[frame].missing_parent_at_load = false
+				executeScripts(activeFrames[frame],kgPanels.db.global.layouts[kgPanels.active][frame],frame)
 			end
 		end
 	end
@@ -246,6 +247,8 @@ local function reParentCheck(newframe)
 			end
 			missingAnchors[frame] = nil
 			checkFrames = checkFrames - 1
+			activeFrames[frame].missing_anchor_at_load = false
+			executeScripts(activeFrames[frame],kgPanels.db.global.layouts[kgPanels.active][frame],frame)
 		elseif parents[manchor] or manchor == newframe then -- the frame we want just got created
 			-- make sure we dont anchor to outselves
 			if activeFrames[frame] == parents[manchor] then error("Attempting to anchor frame to self") end
@@ -254,6 +257,8 @@ local function reParentCheck(newframe)
 				if parents[manchor]:IsShown() then activeFrames[frame]:Show(); updateChildVisibility(activeFrames[frame])end
 				missingAnchors[frame] = nil
 				checkFrames = checkFrames -1
+				activeFrames[frame].missing_anchor_at_load = false
+				executeScripts(activeFrames[frame],kgPanels.db.global.layouts[kgPanels.active][frame],frame)
 			end
 		end
 	end
@@ -352,6 +357,9 @@ local function getFrame()
 	frame.text:SetPoint("CENTER",frame,"CENTER",0,0)
 	frame:SetBackdrop(default_backdrop)
 	frame:SetPoint("CENTER",UIParent,"CENTER",0,0)
+	frame.scripts_loaded = false
+	frame.missing_parent_at_load = false
+	frame.missing_anchor_at_load = false
 	frame:Show()
 	return frame
 end
@@ -510,6 +518,7 @@ function kgPanels:ReParent(name,newParent,newAnchor)
 	if activeFrames[name] then
 		data = self.db.global.layouts[self.active][name]
 		self:ResetParent(activeFrames[name],data,name,newParent,newAnchor)
+		self:InitScripts(activeFrames[name],name,data)
 	end
 end
 --[[
@@ -574,9 +583,7 @@ function kgPanels:PlaceFrame(name,frameData, delay)
 	self:ResetTextures(frame,frameData)
 	frame:EnableMouse(frameData.mouse)
 	self:ResetFont(name,frameData.text)
-	if not delay then
-		self:InitScripts(frame,name,frameData)
-	end
+	self:InitScripts(frame,name,frameData)
 	frame:Show()
 	if frame.missing_parent_at_load or frame.missing_anchor_at_load then
 		frame:Hide()
@@ -585,20 +592,26 @@ end
 function kgPanels:InitScripts(frame,name,frameData)
 	if frameData.scripts then		
 	-- do onload first
-		if frameData.scripts["LOAD"] and not (frame.missing_parent_at_load or frame.missing_anchor_at_load )then
-			self:SetupScript(frame,"LOAD",frameData.scripts["LOAD"],name)
-			frame.onload_already_exected = true
+		if frame.scripts_loaded then
+			return
 		end
-		for hook,code in pairs(frameData.scripts) do
-			if hook ~= "LOAD" then
-				self:SetupScript(frame,hook,code,name)
+		if not frame.missing_parent_at_load or not frame.missing_anchor_at_load then
+			self:SetupScript(frame,"LOAD",frameData.scripts["LOAD"],name)
+			for hook,code in pairs(frameData.scripts) do
+				if hook ~= "LOAD" then
+					self:SetupScript(frame,hook,code,name)
+				end
 			end
+			frame.scripts_loaded = true
 		end
 	end
 end
 
 function kgPanels:ResetParent(frame,frameData,name,overrideParent,overrideAnchor)
 	local parent = parents[frameData.parent]
+	if overrideParent then
+		parent = overrideParent
+	end
 	if not parent then
 		-- are we trying to parent ot one of our other layout frames?
 		-- dont allow self parenting
@@ -611,9 +624,6 @@ function kgPanels:ResetParent(frame,frameData,name,overrideParent,overrideAnchor
 			frame.missing_parent_at_load = true
 			frame:Hide()
 		end
-	end
-	if overrideParent then
-		parent = overrideParent
 	end
 	frame:SetParent(parent)
 	frame:ClearAllPoints()
@@ -723,7 +733,7 @@ function kgPanels:ResetFont(name,fontdata)
 	f.text:SetText(gsub(fontdata.text,'||','\124'))
 end
 function kgPanels:SetupScript(frame,hook,code,name,initial)
-	--self:Print("Setting up scripts for "..hook)
+	self:Print("Setting up scripts for "..hook.." ("..name..")")
 	if not frame then return end
 	local code,subs = gsub(code, '||','\124')
 	if hook == "EVENT" and strlen(code) > 1 then
