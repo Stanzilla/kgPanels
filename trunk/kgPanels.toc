@@ -4,7 +4,7 @@
 ## Author: kagaro
 ## SavedVariables: kgPanelsDB
 ## X-Category: Interface Enhancements
-## Version: 1.17
+## Version: 1.18
 ## X-Email: sal.scotto@gmail.com
 ## X-License: GPL v2
 ## OptionalDeps: Ace3, LibSharedMedia-3.0, LibDataBroker-1.1
