@@ -195,9 +195,6 @@ end
 
 local function executeScripts(frame,frameData,name)
 	if frameData.scripts then		
-		if frame.scripts_loaded then
-			return
-		end
 		kgPanels:InitScripts(frame,name,frameData)			
 	end
 end
@@ -224,6 +221,7 @@ local function reParentCheck(newframe)
 					missingParents[frame] = nil
 					checkFrames = checkFrames -1
 					activeFrames[frame].missing_parent_at_load = false
+					activeFrames[frame].scripts_loaded = false
 					executeScripts(activeFrames[frame],kgPanels.db.global.layouts[kgPanels.active][frame],frame)
 				end
 			end
@@ -234,6 +232,7 @@ local function reParentCheck(newframe)
 				missingParents[frame] = nil
 				checkFrames = checkFrames -1
 				activeFrames[frame].missing_parent_at_load = false
+				activeFrames[frame].scripts_loaded = false
 				executeScripts(activeFrames[frame],kgPanels.db.global.layouts[kgPanels.active][frame],frame)
 			end
 		end
@@ -248,6 +247,7 @@ local function reParentCheck(newframe)
 			missingAnchors[frame] = nil
 			checkFrames = checkFrames - 1
 			activeFrames[frame].missing_anchor_at_load = false
+			activeFrames[frame].scripts_loaded = false
 			executeScripts(activeFrames[frame],kgPanels.db.global.layouts[kgPanels.active][frame],frame)
 		elseif parents[manchor] or manchor == newframe then -- the frame we want just got created
 			-- make sure we dont anchor to outselves
@@ -258,6 +258,7 @@ local function reParentCheck(newframe)
 				missingAnchors[frame] = nil
 				checkFrames = checkFrames -1
 				activeFrames[frame].missing_anchor_at_load = false
+				activeFrames[frame].scripts_loaded = false
 				executeScripts(activeFrames[frame],kgPanels.db.global.layouts[kgPanels.active][frame],frame)
 			end
 		end
@@ -518,7 +519,6 @@ function kgPanels:ReParent(name,newParent,newAnchor)
 	if activeFrames[name] then
 		data = self.db.global.layouts[self.active][name]
 		self:ResetParent(activeFrames[name],data,name,newParent,newAnchor)
-		self:InitScripts(activeFrames[name],name,data)
 	end
 end
 --[[
@@ -583,8 +583,8 @@ function kgPanels:PlaceFrame(name,frameData, delay)
 	self:ResetTextures(frame,frameData)
 	frame:EnableMouse(frameData.mouse)
 	self:ResetFont(name,frameData.text)
-	self:InitScripts(frame,name,frameData)
 	frame:Show()
+	self:InitScripts(frame,name,frameData)
 	if frame.missing_parent_at_load or frame.missing_anchor_at_load then
 		frame:Hide()
 	end
@@ -592,10 +592,11 @@ end
 function kgPanels:InitScripts(frame,name,frameData)
 	if frameData.scripts then		
 	-- do onload first
-		if frame.scripts_loaded then
-			return
-		end
-		if not frame.missing_parent_at_load or not frame.missing_anchor_at_load then
+		--if frame.scripts_loaded then
+		--	self:Print("Frame scripts already loaded skipping")
+		--	return
+		--end
+		if not frame.missing_parent_at_load and not frame.missing_anchor_at_load then
 			if frameData.scripts["LOAD"] then
 				self:SetupScript(frame,"LOAD",frameData.scripts["LOAD"],name)
 			end
@@ -604,7 +605,7 @@ function kgPanels:InitScripts(frame,name,frameData)
 					self:SetupScript(frame,hook,code,name)
 				end
 			end
-			frame.scripts_loaded = true
+			--frame.scripts_loaded = true
 		end
 	end
 end
@@ -735,7 +736,7 @@ function kgPanels:ResetFont(name,fontdata)
 	f.text:SetText(gsub(fontdata.text,'||','\124'))
 end
 function kgPanels:SetupScript(frame,hook,code,name,initial)
-	--self:Print("Setting up scripts for "..hook.." ("..name..")")
+--	self:Print("Setting up scripts for "..hook.." ("..name..")")
 	if not frame then return end
 	local code,subs = gsub(code, '||','\124')
 	if hook == "EVENT" and strlen(code) > 1 then
