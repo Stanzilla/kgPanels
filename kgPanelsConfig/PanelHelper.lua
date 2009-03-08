@@ -634,6 +634,10 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 					panelData[info.arg] = val
 					local frame = kgPanels:FetchFrame(panelName)
 					if frame then
+						if arg == anchor then
+							panelData["x"] = 0
+							panelData["y"] = 0
+						end
 						kgPanels:ResetParent(frame,panelData,panelName)
 						if self.lockFrames[panelName] then
 							guide:DeleteGuide(self.lockFrames[panelName])
