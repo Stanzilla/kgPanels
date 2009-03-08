@@ -596,7 +596,9 @@ function kgPanels:InitScripts(frame,name,frameData)
 			return
 		end
 		if not frame.missing_parent_at_load or not frame.missing_anchor_at_load then
-			self:SetupScript(frame,"LOAD",frameData.scripts["LOAD"],name)
+			if frameData.scripts["LOAD"] then
+				self:SetupScript(frame,"LOAD",frameData.scripts["LOAD"],name)
+			end
 			for hook,code in pairs(frameData.scripts) do
 				if hook ~= "LOAD" then
 					self:SetupScript(frame,hook,code,name)
@@ -733,7 +735,7 @@ function kgPanels:ResetFont(name,fontdata)
 	f.text:SetText(gsub(fontdata.text,'||','\124'))
 end
 function kgPanels:SetupScript(frame,hook,code,name,initial)
-	self:Print("Setting up scripts for "..hook.." ("..name..")")
+	--self:Print("Setting up scripts for "..hook.." ("..name..")")
 	if not frame then return end
 	local code,subs = gsub(code, '||','\124')
 	if hook == "EVENT" and strlen(code) > 1 then
