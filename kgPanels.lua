@@ -288,6 +288,8 @@ local function recycleFrame(frame)
 	frame:SetScript("OnHide",nil)
 	frame:SetScript("OnEnter",nil)
 	frame:SetScript("OnLeave",nil)	
+	frame:SetScript("OnSizeChanged",nil)
+	frame:SetScript("OnReceiveDrag",nil)
 	frame.onload_already_exected = false
 	frame.missing_parent_at_load = false
 	frame.missing_anchor_at_load = false
@@ -347,6 +349,8 @@ local function getFrame()
 	frame:SetScript("OnHide",nil)
 	frame:SetScript("OnEnter",nil)
 	frame:SetScript("OnLeave",nil)
+	frame:SetScript("OnSizeChanged",nil)
+	frame:SetScript("OnReceiveDrag",nil)
 	frame.bg:SetTexture(0.1,0.1,0.1,0.8)
 	frame:SetFrameStrata("BACKGROUND")
 	frame:SetWidth(200)
@@ -808,6 +812,26 @@ function kgPanels:SetupScript(frame,hook,code,name,initial)
 		end	
 	elseif hook == "CLICK" and strlen(code) < 1 then
 		frame:SetScript("OnClick",nil)
+	end
+	if hook == "RESIZE" and strlen(code) > 1 then
+		local func, errorMessage = loadstring("return function(self,height,width) "..makeRef().." "..code.." end",name.."_OnResize")
+		if func then
+			frame:SetScript("OnSizeChanged",func())
+		else
+			self:Print(errorMessage)
+		end	
+	elseif hook == "RESIZE" and strlen(code) < 1 then
+		frame:SetScript("OnSizeChanged",nil)
+	end
+	if hook == "DROP" and strlen(code) > 1 then
+		local func, errorMessage = loadstring("return function(self) "..makeRef().." "..code.." end",name.."_OnResize")
+		if func then
+			frame:SetScript("OnReceiveDrag",func())
+		else
+			self:Print(errorMessage)
+		end	
+	elseif hook == "DROP" and strlen(code) < 1 then
+		frame:SetScript("OnReceiveDrag",nil)
 	end
 	if hook == "LOAD" and strlen(code) > 1 then
 		local func, errorMessage = loadstring("return function(self, kgPanels) "..code.." end",name.."_OnLoad")
