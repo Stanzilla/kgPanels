@@ -1237,6 +1237,50 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 							},
 						},
 					},
+					OnResize = {
+						type = "group",
+						name = L["OnSizeChanged"],
+						childGroups = "tree",
+						order = 70,
+						args = {
+							desc = {
+								type = "description",
+								name = L["Enter the script for OnSizechanged callback."],
+								order = 1,
+							},
+							code = {
+								type = "input",
+								name = "",
+								multiline = 24,
+								width = "full",
+								order = 2,
+								arg = "RESIZE"
+							},
+						},
+					},
+					OnDrop = {
+						type = "group",
+						name = L["OnReceiveDrag"],
+						childGroups = "tree",
+						order = 70,
+						args = {
+							desc = {
+								type = "description",
+								name = L["Enter the script for OnReceiveDrag callback."],
+								order = 1,
+							},
+							code = {
+								type = "input",
+								name = "",
+								multiline = 24,
+								width = "full",
+								order = 2,
+								arg = "DROP"
+							},
+						},
+					},
+
+
 					OnLoad = {
 						type = "group",
 						name = L["OnLoad"],
