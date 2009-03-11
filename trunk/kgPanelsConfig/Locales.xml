@@ -2,6 +2,7 @@
 ..\FrameXML\UI.xsd">
 	<Script file="Locales\kgPanels-enUS.lua"/>
 	<Script file="Locales\kgPanels-esES.lua"/>
+	<Script file="Locales\kgPanels-esMX.lua"/>
 	<Script file="Locales\kgPanels-frFR.lua"/>
 	<Script file="Locales\kgPanels-deDE.lua"/>
 	<Script file="Locales\kgPanels-koKR.lua"/>
