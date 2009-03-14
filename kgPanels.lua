@@ -17,6 +17,7 @@ local l_layout = "layout"
 local l_usage = {[[Usage: /kgpanels <command>]],[["config" enter the config screen.]],[["enable" enable the mod.]],[["disable" disable the mod.]],[["layout" "layout name" to change layouts.]]}
 local l_not_found = " not found."
 local gsub = string.gsub
+local default_font="Fonts\\FRIZQT__.TTF"
 
 local defaultPanelOptions = {
 	parent = "UIParent",
@@ -123,7 +124,9 @@ local frameCache = {}
 -- frames missing a parent
 local missingParents = {}
 local missingAnchors = {}
-local missingArt = {}
+local missingBackgrounds = {}
+local missingBorders = {}
+local missingFonts = {}
 -- bad parents
 local badParents = {}
 -- upvalues
@@ -141,6 +144,7 @@ local tonumber = tonumber
 local ipairs = ipairs
 local IsAddOnLoaded = IsAddOnLoaded
 local checkFrames = 0
+local testingTexture = nil
 
 kgPanels.eframe = kgPanels.eframe or CreateFrame("Frame","kgPanels_Dep_Frame")
 -- default backgrop
@@ -302,7 +306,7 @@ local function injectArt()
 		end
 		for art,path in pairs(kgPanels.db.global.border) do
 			LSM:Register("border",art,path)
-		end
+		end		
 	end
 end
 local function fetchArt(art,artType)
@@ -315,14 +319,14 @@ local function fetchArt(art,artType)
 	elseif LSM and LSM.Fetch and LSM:Fetch("background",art,true) and artType == "background" then
 		return LSM:Fetch("background",art,true)
 	end
-	kgPanels:Print("Failed to find artwork "..art)
+	kgPanels:Print("Failed to find artwork "..art.." type "..artType)
 	return nil
 end
 local function fetchFont(font)
 	if font and LSM and LSM.Fetch and LSM:Fetch("font",font,true) then
 		return LSM:Fetch("font",font)
 	end
-	return "Fonts\\FRIZQT__.TTF"
+	return nil
 end
 --[[ Helper function for Config so i dont duplicate the code again ]]
 function kgPanels:FetchArt(art,artType)
@@ -396,7 +400,34 @@ function kgPanels:OnInitialize()
 	-- Hook the CreateFrame function so that kgPanels set to non-existant parent/anchor frames can be updated if/when those frames are created
 	hooksecurefunc("CreateFrame", parentCheckHook)
 	injectArt()
+	if LSM then
+		LSM:RegisterCallback("LibSharedMedia_Registered",self.ResetMedia) 
+	end
+	testingTexture = self.eframe:CreateTexture(nil,"PARENT")
 end
+
+function kgPanels:ResetMedia(mediaType, key)
+	if mediaType == "background" then
+		for name,v in pairs(missingBackgrounds) do
+			if v == key then
+				self:ResetTextures(activeFrames[name],kgPanels.db.global.layouts[kgPanels.active][name],name)
+			end
+		end
+	elseif mediaType == "border" then
+		for name,v in pairs(missingBorders) do
+			if v == key then
+				self:ResetTextures(activeFrames[name],kgPanels.db.global.layouts[kgPanels.active][name],name)
+			end
+		end
+	elseif mediaType == "font" then
+		for name,v in pairs(missingFonts) do
+			if v == key then
+				self:ResetFont(name,kgPanels.db.global.layouts[kgPanels.active][name])
+			end
+		end
+	end
+end
+
 local function checkScriptDeps(addon)
 	for k,v in pairs(kgPanels.db.global.layout_deps[self.active]) do
 		if v == addon then
@@ -584,7 +615,7 @@ function kgPanels:PlaceFrame(name,frameData, delay)
 	-- Mark our kgPanel as being active
 	activeFrames[name] = frame
 	self:ResetParent(frame,frameData,name)
-	self:ResetTextures(frame,frameData)
+	self:ResetTextures(frame,frameData,name)
 	frame:EnableMouse(frameData.mouse)
 	self:ResetFont(name,frameData.text)
 	frame:Show()
@@ -677,7 +708,7 @@ function kgPanels:ResetParent(frame,frameData,name,overrideParent,overrideAnchor
 	frame:SetFrameLevel(frameData.level)
 	frame:SetFrameStrata(frameData.strata)
 end
-function kgPanels:ResetTextures(frame,frameData)
+function kgPanels:ResetTextures(frame,frameData,name)
 	frame.bg:SetTexCoord(0,1,0,1)
 	frame.bg:SetTexCoordModifiesRect(false)
 	frame.bg:SetBlendMode(frameData.bg_blend)
@@ -698,9 +729,19 @@ function kgPanels:ResetTextures(frame,frameData)
 			if fetchArt(frameData.bg_texture,"background") then
 				self:Print("Texture missing! "..fetchArt(frameData.bg_texture,"background"))
 			else
+				missingBackgrounds[name]=frameData.bg_texture
 				self:Print("Texture not found "..frameData.bg_texture)
 			end
 		end
+	end
+	if not fetchArt(frameData.border_texture,"border") then
+		missingBorders[name]=frameData.border_texture
+	elseif frameData.border_texture ~= "None" then
+		testingTexture:SetTexture(fetchArt(frameData.border_texture,"border"))
+		if not testingTexture:GetTexture() then
+			self:Print("Border texture is missing!")
+		end
+		testingTexture:SetTexture(nil)
 	end
 	if frameData.tiling then
 		frame.bg:SetTexture(nil)
@@ -732,7 +773,12 @@ function kgPanels:ResetFont(name,fontdata)
 	if fontdata.size == 0  or fontdata.size == nil then
 		fontdata.size = 12
 	end
-	f.text:SetFont(fetchFont(fontdata.font),fontdata.size)
+	local font = fetchFont(fontdata.font)
+	if not font then
+		missingFonts[name]=fontdata.font
+		font = default_font
+	end
+	f.text:SetFont(font,fontdata.size)
 	f.text:SetPoint("CENTER", f.bg, "CENTER", fontdata.x, fontdata.y)
 	f.text:SetJustifyV(fontdata.justifyV)
 	f.text:SetJustifyH(fontdata.justifyH)
