@@ -425,7 +425,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 					panelData[info.arg] = val
 					local frame = kgPanels:FetchFrame(panelName)
 					if frame then
-						kgPanels:ResetTextures(frame,panelData)
+						kgPanels:ResetTextures(frame,panelData,panelName)
 					end
 				end,
 				args = {
@@ -465,7 +465,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 							panelData.bg_color.a =a
 							local frame = kgPanels:FetchFrame(panelName)
 							if frame then
-								kgPanels:ResetTextures(frame,panelData)
+								kgPanels:ResetTextures(frame,panelData,panelName)
 							end
 						end
 					},
@@ -494,7 +494,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 							panelData.gradient_color.a =a
 							local frame = kgPanels:FetchFrame(panelName)
 							if frame then
-								kgPanels:ResetTextures(frame,panelData)
+								kgPanels:ResetTextures(frame,panelData,panelName)
 							end
 						end
 					},
@@ -522,7 +522,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 							panelData.border_color.a =a
 							local frame = kgPanels:FetchFrame(panelName)
 							if frame then
-								kgPanels:ResetTextures(frame,panelData)
+								kgPanels:ResetTextures(frame,panelData,panelName)
 							end
 						end
 					},
@@ -693,7 +693,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 					panelData[info.arg] = val
 					local frame = kgPanels:FetchFrame(panelName)
 					if frame then
-						kgPanels:ResetTextures(frame,panelData)
+						kgPanels:ResetTextures(frame,panelData,panelName)
 					end
 				end,
 				args = {
@@ -785,7 +785,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 							panelData.bg_insets[info.arg] = val
 							local frame = kgPanels:FetchFrame(panelName)
 							if frame then
-								kgPanels:ResetTextures(frame,panelData)
+								kgPanels:ResetTextures(frame,panelData,panelName)
 							end
 						end,
 						args = {
@@ -844,7 +844,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 							panelData.bg_insets[info.arg] = val
 							local frame = kgPanels:FetchFrame(panelName)
 							if frame then
-								kgPanels:ResetTextures(frame,panelData)
+								kgPanels:ResetTextures(frame,panelData,name)
 							end
 						end,
 						args = {
