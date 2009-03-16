@@ -244,10 +244,8 @@ local function reParentCheck(newframe)
 	for frame,manchor in pairs(missingAnchors) do
 		if activeFrames[manchor] and activeFrames[manchor] ~= frame then -- check the list of self frames
 			kgPanels:ResetParent(activeFrames[frame],kgPanels.db.global.layouts[kgPanels.active][frame],frame)
-			if activeFrames[manchor]:IsShown() then 
-				activeFrames[frame]:Show() 
-				updateChildVisibility(activeFrames[frame])
-			end
+			activeFrames[frame]:Show() 
+			updateChildVisibility(activeFrames[frame])
 			missingAnchors[frame] = nil
 			checkFrames = checkFrames - 1
 			activeFrames[frame].missing_anchor_at_load = false
@@ -258,7 +256,8 @@ local function reParentCheck(newframe)
 			if activeFrames[frame] == parents[manchor] then error("Attempting to anchor frame to self") end
 			if parents[manchor] then
 				kgPanels:ResetParent(activeFrames[frame],kgPanels.db.global.layouts[kgPanels.active][frame],frame)
-				if parents[manchor]:IsShown() then activeFrames[frame]:Show(); updateChildVisibility(activeFrames[frame])end
+				activeFrames[frame]:Show(); 
+				updateChildVisibility(activeFrames[frame])
 				missingAnchors[frame] = nil
 				checkFrames = checkFrames -1
 				activeFrames[frame].missing_anchor_at_load = false
@@ -401,12 +400,12 @@ function kgPanels:OnInitialize()
 	hooksecurefunc("CreateFrame", parentCheckHook)
 	injectArt()
 	if LSM then
-		LSM:RegisterCallback("LibSharedMedia_Registered",self.ResetMedia) 
+		LSM:RegisterCallback("LibSharedMedia_Registered",self.AddMissingMedia) 
 	end
 	testingTexture = self.eframe:CreateTexture(nil,"PARENT")
 end
 
-function kgPanels:ResetMedia(mediaType, key)
+function kgPanels:AddMissingMedia(mediaType, key)
 	if mediaType == "background" then
 		for name,v in pairs(missingBackgrounds) do
 			if v == key then
