@@ -413,19 +413,22 @@ function kgPanels:AddMissingMedia(mediaType, key)
 	if mediaType == "background" then
 		for name,v in pairs(missingBackgrounds) do
 			if v == key then
-				self:ResetTextures(activeFrames[name],kgPanels.db.global.layouts[kgPanels.active][name],name)
+				print("Missing Background "..v.." found .. appling texture")
+				kgPanels:ResetTextures(activeFrames[name],kgPanels.db.global.layouts[kgPanels.active][name],name)
 			end
 		end
 	elseif mediaType == "border" then
 		for name,v in pairs(missingBorders) do
 			if v == key then
-				self:ResetTextures(activeFrames[name],kgPanels.db.global.layouts[kgPanels.active][name],name)
+				print("Missing Border "..v.." found .. appling texture")
+				kgPanels:ResetTextures(activeFrames[name],kgPanels.db.global.layouts[kgPanels.active][name],name)
 			end
 		end
 	elseif mediaType == "font" then
 		for name,v in pairs(missingFonts) do
 			if v == key then
-				self:ResetFont(name,kgPanels.db.global.layouts[kgPanels.active][name])
+				print("Missing font "..v.." found .. appling font")
+				kgPanels:ResetFont(name,kgPanels.db.global.layouts[kgPanels.active][name])
 			end
 		end
 	end
