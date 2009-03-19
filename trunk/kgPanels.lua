@@ -293,6 +293,8 @@ local function recycleFrame(frame)
 	frame:SetScript("OnLeave",nil)	
 	frame:SetScript("OnSizeChanged",nil)
 	frame:SetScript("OnReceiveDrag",nil)
+	frame:SetScript("OnMouseUp",nil)
+	frame:SetScript("OnMouseDown",nil)
 	frame.onload_already_exected = false
 	frame.missing_parent_at_load = false
 	frame.missing_anchor_at_load = false
@@ -354,6 +356,8 @@ local function getFrame()
 	frame:SetScript("OnLeave",nil)
 	frame:SetScript("OnSizeChanged",nil)
 	frame:SetScript("OnReceiveDrag",nil)
+	frame:SetScript("OnMouseUp",nil)
+	frame:SetScript("OnMouseDown",nil)
 	frame.bg:SetTexture(0.1,0.1,0.1,0.8)
 	frame:SetFrameStrata("BACKGROUND")
 	frame:SetWidth(200)
@@ -573,8 +577,12 @@ end
 --[[
 	create function refs for scripts
 ]]
-local function makeRef()
-	return "local kgPanels = LibStub(\"AceAddon-3.0\"):GetAddon(\"kgPanels\");"
+local function makeRef(extraCode)
+	local ref = "local kgPanels = LibStub(\"AceAddon-3.0\"):GetAddon(\"kgPanels\");"
+	if extraCode then
+		ref = ref..extraCode
+	end
+	return ref
 end
 --[[
 	Place a frame in the UI
@@ -849,12 +857,18 @@ function kgPanels:SetupScript(frame,hook,code,name,initial)
 		frame:SetScript("OnLeave",nil)
 	end
 	if hook == "CLICK" and strlen(code) > 1 then
-		local func, errorMessage = loadstring("return function(self,button) "..makeRef().." "..code.." end",name.."_OnClick")
-		if func then
-			frame:SetScript("OnMouseDown",func())
+		local funcD, errorMessage = loadstring("return function(self,button) "..makeRef(" direction=-1;").." "..code.." end",name.."_OnClickDown")
+		local funcU, errorMessage = loadstring("return function(self,button) "..makeRef(" direction=1;").." "..code.." end",name.."_OnClickUp")
+		if funcD then
+			frame:SetScript("OnMouseDown",funcD())
 		else
 			self:Print(errorMessage)
 		end	
+		if funcU then
+			frame:SetScript("OnMouseUp",funcD())
+		else 
+			self:Print(errorMessage)
+		end
 	elseif hook == "CLICK" and strlen(code) < 1 then
 		frame:SetScript("OnClick",nil)
 	end
