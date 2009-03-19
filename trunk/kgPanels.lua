@@ -857,8 +857,8 @@ function kgPanels:SetupScript(frame,hook,code,name,initial)
 		frame:SetScript("OnLeave",nil)
 	end
 	if hook == "CLICK" and strlen(code) > 1 then
-		local funcD, errorMessage = loadstring("return function(self,button) "..makeRef(" direction=-1;").." "..code.." end",name.."_OnClickDown")
-		local funcU, errorMessage = loadstring("return function(self,button) "..makeRef(" direction=1;").." "..code.." end",name.."_OnClickUp")
+		local funcD, errorMessage = loadstring("return function(self,button) "..makeRef(" local direction=-1;").." "..code.." end",name.."_OnClickDown")
+		local funcU, errorMessage = loadstring("return function(self,button) "..makeRef(" local direction=1;").." "..code.." end",name.."_OnClickUp")
 		if funcD then
 			frame:SetScript("OnMouseDown",funcD())
 		else
