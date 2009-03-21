@@ -49,7 +49,7 @@ local defaultPanelOptions = {
 	scripts = {},
 	tileSize = 0,
 	tiling = false,
-	absolute_bg = {ULx=0, ULy=0, LLx=0,LLy=0,URx=0,URy=0,LRx=0,LRy=0},
+	absolute_bg = {ULx=0, ULy=0, LLx=0,LLy=1,URx=1,URy=0,LRx=1,LRy=1},
 	use_absolute_bg = false,
 	crop = false,
 }
@@ -382,6 +382,7 @@ local launcher
 
 function kgPanels:OnInitialize()
 	self.db = LibStub("AceDB-3.0"):New("kgPanelsDB", dbDefaults, "Default")
+	self:UpgradeDB()
 	self:RegisterChatCommand("kgPanels","CommandLine",true,true)
 	self.parents = parents
 	self.angles = angles
@@ -416,21 +417,21 @@ function kgPanels:AddMissingMedia(mediaType, key)
 	if mediaType == "background" then
 		for name,v in pairs(missingBackgrounds) do
 			if v == key then
-				print("Missing Background "..v.." found .. applying texture")
+				kgPanels:Print("Missing Background "..v.." found .. applying texture")
 				kgPanels:ResetTextures(activeFrames[name],kgPanels.db.global.layouts[kgPanels.active][name],name)
 			end
 		end
 	elseif mediaType == "border" then
 		for name,v in pairs(missingBorders) do
 			if v == key then
-				print("Missing Border "..v.." found .. applying texture")
+				kgPanels:Print("Missing Border "..v.." found .. applying texture")
 				kgPanels:ResetTextures(activeFrames[name],kgPanels.db.global.layouts[kgPanels.active][name],name)
 			end
 		end
 	elseif mediaType == "font" then
 		for name,v in pairs(missingFonts) do
 			if v == key then
-				print("Missing font "..v.." found .. applying font")
+				kgPanels:Print("Missing font "..v.." found .. applying font")
 				kgPanels:ResetFont(name,kgPanels.db.global.layouts[kgPanels.active][name])
 			end
 		end
@@ -465,6 +466,22 @@ function kgPanels:OnEnable()
 				end
 			end)
 		end
+	end
+end
+function kgPanels:UpgradeDB()
+	if self.db.global.version ~= 2 then
+		for k,v in pairs(self.db.global.layouts) do
+			for name,panel in pairs(v) do
+				if not panel.absolute_bg then
+					panel.absolute_bg = {ULx=0, ULy=0, LLx=0,LLy=1,URx=1,URy=0,LRx=1,LRy=1}
+					panel.use_absolute_bg = false
+				end
+				if not panel.scripts then
+					panel.scripts = {}
+				end
+			end
+		end
+		self.db.global.version = 2
 	end
 end
 -- add a fetch method to check our library or LSM, and use it in place frame
@@ -542,6 +559,10 @@ function kgPanels:ApplyLayout(layoutData)
 		for name,data in pairs(layoutData) do
 			if not data.scripts then
 				data.scripts = {}
+			end
+			if not data.absolute_bg then
+				data.absolute_bg = {ULx=0, ULy=0, LLx=0,LLy=1,URx=0,URy=0,LRx=0,LRy=1}
+				data.use_absolute_bg = false
 			end
 			self:PlaceFrame(name,data,true)
 		end
@@ -726,6 +747,7 @@ function kgPanels:ResetParent(frame,frameData,name,overrideParent,overrideAnchor
 end
 function kgPanels:ResetTextures(frame,frameData,name)
 	frame.bg:SetTexCoord(0,1,0,1)
+	local ULx,ULy,LLx,LLy,URx,URy,LRx,LRy = frame.bg:GetTexCoord()
 	frame.bg:SetTexCoordModifiesRect(false)
 	frame.bg:SetBlendMode(frameData.bg_blend)
 	frame.bg:SetAlpha(frameData.bg_alpha)
@@ -746,7 +768,8 @@ function kgPanels:ResetTextures(frame,frameData,name)
 				self:Print("Background Texture "..frameData.bg_texture.."("..fetchArt(frameData.bg_texture,"background")..") failed to load.")
 			else
 				missingBackgrounds[name]=frameData.bg_texture
-				self:Print("Texture not found "..frameData.bg_texture.." in kgPanels or SharedMedia")
+				frame.bg:SetTexture(1,1,1,1)
+				self:Print("Texture not found "..frameData.bg_texture.." in kgPanels or SharedMedia setting to white")
 			end
 		end
 	end
@@ -772,12 +795,12 @@ function kgPanels:ResetTextures(frame,frameData,name)
 	-- only use the backdrop for border.
 	-- rotating and flipping can only be done on a texture
 	frame.bg:SetTexCoord(unpack(angles[frameData.rotation]))
-	if frameData.use_absolute_bg then
+	if frameData.use_absolute_bg and not frameData.tiling then
 		local coord = frameData.absolute_bg
 		if frameData.crop then
 			frame.bg:SetTexCoordModifiesRect(crop)
 		end
-		frame.bg:SetTextCoord(coord.ULx,coord.ULy,coord.LLx,coord.LLy,coord.URx,coord.URy,coord.LRx,coord.LRy)
+		frame.bg:SetTexCoord(coord.ULx,coord.ULy,coord.LLx,coord.LLy,coord.URx,coord.URy,coord.LRx,coord.LRy)
 	end
 	if frameData.hflip then
 		flip(frame.bg,true)

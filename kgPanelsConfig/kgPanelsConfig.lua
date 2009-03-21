@@ -57,6 +57,9 @@ local defaultPanelOptions = {
 	scripts = {},
 	tileSize = 0,
 	tiling = false,
+	absolute_bg = {ULx=0, ULy=0, LLx=0,LLy=1,URx=1,URy=0,LRx=1,LRy=1},
+	use_absolute_bg = false,
+	crop = false,
 }
 local function DeepCopy(t, lookup_table)
 	local copy = {}
