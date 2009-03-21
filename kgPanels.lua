@@ -415,21 +415,21 @@ function kgPanels:AddMissingMedia(mediaType, key)
 	if mediaType == "background" then
 		for name,v in pairs(missingBackgrounds) do
 			if v == key then
-				print("Missing Background "..v.." found .. appling texture")
+				print("Missing Background "..v.." found .. applying texture")
 				kgPanels:ResetTextures(activeFrames[name],kgPanels.db.global.layouts[kgPanels.active][name],name)
 			end
 		end
 	elseif mediaType == "border" then
 		for name,v in pairs(missingBorders) do
 			if v == key then
-				print("Missing Border "..v.." found .. appling texture")
+				print("Missing Border "..v.." found .. applying texture")
 				kgPanels:ResetTextures(activeFrames[name],kgPanels.db.global.layouts[kgPanels.active][name],name)
 			end
 		end
 	elseif mediaType == "font" then
 		for name,v in pairs(missingFonts) do
 			if v == key then
-				print("Missing font "..v.." found .. appling font")
+				print("Missing font "..v.." found .. applying font")
 				kgPanels:ResetFont(name,kgPanels.db.global.layouts[kgPanels.active][name])
 			end
 		end
@@ -741,10 +741,10 @@ function kgPanels:ResetTextures(frame,frameData,name)
 		local t = frame.bg:GetTexture()
 		if not t then
 			if fetchArt(frameData.bg_texture,"background") then
-				self:Print("Texture missing! "..fetchArt(frameData.bg_texture,"background"))
+				self:Print("Background Texture "..frameData.bg_texture.."("..fetchArt(frameData.bg_texture,"background")..") failed to load.")
 			else
 				missingBackgrounds[name]=frameData.bg_texture
-				self:Print("Texture not found "..frameData.bg_texture)
+				self:Print("Texture not found "..frameData.bg_texture.." in kgPanels or SharedMedia")
 			end
 		end
 	end
@@ -753,7 +753,7 @@ function kgPanels:ResetTextures(frame,frameData,name)
 	elseif frameData.border_texture ~= "None" then
 		testingTexture:SetTexture(fetchArt(frameData.border_texture,"border"))
 		if not testingTexture:GetTexture() then
-			self:Print("Border texture is missing!")
+			self:Print("Border texture "..frameData.border_texture.."("..fetchArt(frameData.border_texture,"border")..") failed to load.")
 		end
 		testingTexture:SetTexture(nil)
 	end
