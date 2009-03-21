@@ -51,6 +51,7 @@ local defaultPanelOptions = {
 	tiling = false,
 	absolute_bg = {ULx=0, ULy=0, LLx=0,LLy=0,URx=0,URy=0,LRx=0,LRy=0},
 	use_absolute_bg = false,
+	crop = false,
 }
 -- inline localizations
 local gameLocale = GetLocale()
@@ -621,7 +622,8 @@ end
 		[hook = EVENT|UPDATE|SHOW|HIDE|ENTER|LEAVE|LOAD] = "code" all code can use the this reference to for the frame, .bg is the background texture .text if the font string
 	}}
 	use_absolute_bg=boolean
-	absolute_bg={ULx,ULy,LLx,LLy,URx,URy,LRx,LRy}
+	absolute_bg={ULx,ULy,LLx,LLy,URx,URy,LRx,LRy},
+	crop=false
 	:end format
 ]]
 function kgPanels:PlaceFrame(name,frameData, delay)
@@ -770,15 +772,18 @@ function kgPanels:ResetTextures(frame,frameData,name)
 	-- only use the backdrop for border.
 	-- rotating and flipping can only be done on a texture
 	frame.bg:SetTexCoord(unpack(angles[frameData.rotation]))
+	if frameData.use_absolute_bg then
+		local coord = frameData.absolute_bg
+		if frameData.crop then
+			frame.bg:SetTexCoordModifiesRect(crop)
+		end
+		frame.bg:SetTextCoord(coord.ULx,coord.ULy,coord.LLx,coord.LLy,coord.URx,coord.URy,coord.LRx,coord.LRy)
+	end
 	if frameData.hflip then
 		flip(frame.bg,true)
 	end
 	if frameData.vflip then
 		flip(frame.bg,false)
-	end
-	if frameData.use_absolute_bg then
-		local coord = frameData.absolute_bg
-		frame.bg:SetTextCoord(coord.ULx,coord.ULy,coord.LLx,coord.LLy,coord.URx,coord.URy,coord.LRx,coord.LRy)
 	end
 	frame:SetFrameLevel(frameData.level)
 	frame:SetFrameStrata(frameData.strata)

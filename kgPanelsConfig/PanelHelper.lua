@@ -784,7 +784,12 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 								desc = L["Setup custom Text Coords for your texture."],
 								get = function(info) return panelData.absolute_bg[info.arg] end,
 								set = function(info,val) 
-									panelData.absolute_bg[info.arg] = val 
+									if val then
+										local y = tonumber(val)
+										if y then
+											panelData.absolute_bg[info.arg] = y
+										end
+									end
 									local frame = kgPanels:FetchFrame(panelName)
 									if frame then
 										kgPanels:ResetTextures(frame,panelData,panelName)
@@ -806,7 +811,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 										width = "half",
 										arg="ULy",
 										usage="0.001",
-										order=1,
+										order=2,
 									},
 									LLx = {
 										type = "input",
@@ -814,7 +819,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 										width = "half",
 										arg="LLx",
 										usage="0.001",
-										order=1,
+										order=3,
 									},
 									LLy = {
 										type = "input",
@@ -822,7 +827,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 										width = "half",
 										arg="LLy",
 										usage="0.001",
-										order=1,
+										order=4,
 									},
 									URx = {
 										type = "input",
@@ -830,7 +835,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 										width = "half",
 										arg="URx",
 										usage="0.001",
-										order=1,
+										order=5,
 									},
 									URy = {
 										type = "input",
@@ -838,7 +843,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 										width = "half",
 										arg="URy",
 										usage="0.001",
-										order=1,
+										order=6,
 									},
 									LRx = {
 										type = "input",
@@ -846,7 +851,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 										width = "half",
 										arg="LRx",
 										usage="0.001",
-										order=1,
+										order=7,
 									},
 									LRy = {
 										type = "input",
@@ -854,8 +859,22 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 										width = "half",
 										arg="LRy",
 										usage="0.001",
-										order=1,
+										order=8,
 									},
+									cropFlag = {
+										type = "toggle",
+										name = L["Cropped"],
+										desc = L["This will toggle SetTexCoordModifiesRect."],
+										get = function(info) return panelData.crop end,
+										set = function(info, val) 
+											panelData.crop = val 
+											local frame = kgPanels:FetchFrame(panelName)
+											if frame then
+												kgPanels:ResetTextures(frame,panelData,panelName)
+											end	
+										end,
+										order = 100,
+									}
 								}
 							}
 						},
