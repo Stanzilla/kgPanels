@@ -202,7 +202,6 @@ end
 	Create a option menu for a panel, and insert it into our configuration menu table
 ]]
 function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
-	-- TODO: setup disable/hidden and other variables necessary for this global/panel menu
 	--local panelData = data or self.activePanels[panelName]
 	local _copy_src = nil
 	local _panel_src = nil
@@ -329,6 +328,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 								t.bg_color = DeepCopy(d.bg_color)
 								t.border_color = DeepCopy(d.border_color)
 								t.gradient_color = DeepCopy(d.gradient_color)
+								t.absolute_bg = DeepCopy(d.absolute_bg)
 							elseif _copy_src == "Anchors" then
 								t.anchor = d.anchor
 								t.anchorFrom = d.anchorFrom
@@ -348,6 +348,8 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 								t.bg_texture = d.bg_texture
 								t.bg_alpha = d.bg_alpha
 								t.bg_insets = DeepCopy(d.bg_insets)
+								t.absolute_bg = DeepCopy(d.absolute_bg)
+								t.use_absolute_bg = d.use_absolute_bg
 							elseif _copy_src == "Colors" then
 								t.bg_color = DeepCopy(d.bg_color)
 								t.border_color = DeepCopy(d.border_color)
@@ -782,7 +784,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 								guiInline=true,
 								name = L["Custom Coords Configuration"],
 								desc = L["Setup custom Text Coords for your texture."],
-								get = function(info) return panelData.absolute_bg[info.arg] end,
+								get = function(info) return tostring(panelData.absolute_bg[info.arg]) end,
 								set = function(info,val) 
 									if val then
 										local y = tonumber(val)
@@ -795,7 +797,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 										kgPanels:ResetTextures(frame,panelData,panelName)
 									end
 								end,
-								disabled = function() return not panelData.absolute_bg end,
+								disabled = function() return not panelData.use_absolute_bg end,
 								args = {
 									ULx = {
 										type = "input",
@@ -865,9 +867,9 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 										type = "toggle",
 										name = L["Cropped"],
 										desc = L["This will toggle SetTexCoordModifiesRect."],
-										get = function(info) return panelData.crop end,
+										get = function(info) return panelData["crop"] end,
 										set = function(info, val) 
-											panelData.crop = val 
+											panelData["crop"] = val 
 											local frame = kgPanels:FetchFrame(panelName)
 											if frame then
 												kgPanels:ResetTextures(frame,panelData,panelName)
