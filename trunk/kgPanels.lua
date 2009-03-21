@@ -49,6 +49,8 @@ local defaultPanelOptions = {
 	scripts = {},
 	tileSize = 0,
 	tiling = false,
+	absolute_bg = {ULx=0, ULy=0, LLx=0,LLy=0,URx=0,URy=0,LRx=0,LRy=0},
+	use_absolute_bg = false,
 }
 -- inline localizations
 local gameLocale = GetLocale()
@@ -618,6 +620,8 @@ end
 	scripts = { [name]={
 		[hook = EVENT|UPDATE|SHOW|HIDE|ENTER|LEAVE|LOAD] = "code" all code can use the this reference to for the frame, .bg is the background texture .text if the font string
 	}}
+	use_absolute_bg=boolean
+	absolute_bg={ULx,ULy,LLx,LLy,URx,URy,LRx,LRy}
 	:end format
 ]]
 function kgPanels:PlaceFrame(name,frameData, delay)
@@ -771,6 +775,10 @@ function kgPanels:ResetTextures(frame,frameData,name)
 	end
 	if frameData.vflip then
 		flip(frame.bg,false)
+	end
+	if frameData.use_absolute_bg then
+		local coord = frameData.absolute_bg
+		frame.bg:SetTextCoord(coord.ULx,coord.ULy,coord.LLx,coord.LLy,coord.URx,coord.URy,coord.LRx,coord.LRy)
 	end
 	frame:SetFrameLevel(frameData.level)
 	frame:SetFrameStrata(frameData.strata)
