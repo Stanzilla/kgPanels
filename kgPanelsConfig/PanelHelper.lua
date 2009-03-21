@@ -768,6 +768,95 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 									return panelData[k.arg]
 								end,
 								disabled = function() return not panelData.tiling end,
+							},
+							absolute_bg = 
+							{
+								type = "toggle",
+								name = L["Custom Coords"],
+								desc = L["Use custom TexCoords. This is an adavance feature."],
+								order = 10,
+								arg = "use_absolute_bg"
+							},
+							textCoords = {
+								type = "group",
+								guiInline=true,
+								name = L["Custom Coords Configuration"],
+								desc = L["Setup custom Text Coords for your texture."],
+								get = function(info) return panelData.absolute_bg[info.arg] end,
+								set = function(info,val) 
+									panelData.absolute_bg[info.arg] = val 
+									local frame = kgPanels:FetchFrame(panelName)
+									if frame then
+										kgPanels:ResetTextures(frame,panelData,panelName)
+									end
+								end,
+								disabled = function() return not panelData.absolute_bg end,
+								args = {
+									ULx = {
+										type = "input",
+										name = L["ULx"],
+										width = "half",
+										arg="ULx",
+										usage="0.001",
+										order=1,
+									},
+									ULy = {
+										type = "input",
+										name = L["ULy"],
+										width = "half",
+										arg="ULy",
+										usage="0.001",
+										order=1,
+									},
+									LLx = {
+										type = "input",
+										name = L["LLx"],
+										width = "half",
+										arg="LLx",
+										usage="0.001",
+										order=1,
+									},
+									LLy = {
+										type = "input",
+										name = L["LLy"],
+										width = "half",
+										arg="LLy",
+										usage="0.001",
+										order=1,
+									},
+									URx = {
+										type = "input",
+										name = L["URx"],
+										width = "half",
+										arg="URx",
+										usage="0.001",
+										order=1,
+									},
+									URy = {
+										type = "input",
+										name = L["URy"],
+										width = "half",
+										arg="URy",
+										usage="0.001",
+										order=1,
+									},
+									LRx = {
+										type = "input",
+										name = L["LRx"],
+										width = "half",
+										arg="LRx",
+										usage="0.001",
+										order=1,
+									},
+									LRy = {
+										type = "input",
+										name = L["LRy"],
+										width = "half",
+										arg="LRy",
+										usage="0.001",
+										order=1,
+									},
+								}
 							}
 						},
 					},
