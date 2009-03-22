@@ -774,7 +774,7 @@ function kgPanels:ResetTextures(frame,frameData,name)
 			end
 		end
 	end
-	if frameData.border_texture and (frameData.border_texture) > 2 then 
+	if frameData.border_texture and strlen(frameData.border_texture) > 2 then 
 		local path = fetchArt(frameData.border_texture,"border")
 		if frameData.border_texture ~= l_None then
 			local nonePath = fetchArt(L_None,"border")
