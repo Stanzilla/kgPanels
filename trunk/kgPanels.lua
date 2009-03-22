@@ -417,21 +417,21 @@ function kgPanels:AddMissingMedia(mediaType, key)
 	if mediaType == "background" then
 		for name,v in pairs(missingBackgrounds) do
 			if v == key then
-				kgPanels:Print("Missing Background "..v.." found .. applying texture")
+				kgPanels:Print("Missing Background "..v.." has been added .. applying texture to "..name)
 				kgPanels:ResetTextures(activeFrames[name],kgPanels.db.global.layouts[kgPanels.active][name],name)
 			end
 		end
 	elseif mediaType == "border" then
 		for name,v in pairs(missingBorders) do
 			if v == key then
-				kgPanels:Print("Missing Border "..v.." found .. applying texture")
+				kgPanels:Print("Missing Border "..v.." has been added .. applying texture to "..name)
 				kgPanels:ResetTextures(activeFrames[name],kgPanels.db.global.layouts[kgPanels.active][name],name)
 			end
 		end
 	elseif mediaType == "font" then
 		for name,v in pairs(missingFonts) do
 			if v == key then
-				kgPanels:Print("Missing font "..v.." found .. applying font")
+				kgPanels:Print("Missing font "..v.." has been added .. applying font to "..name)
 				kgPanels:ResetFont(name,kgPanels.db.global.layouts[kgPanels.active][name])
 			end
 		end
@@ -764,8 +764,9 @@ function kgPanels:ResetTextures(frame,frameData,name)
 		frame.bg:SetTexture(fetchArt(frameData.bg_texture,"background"))
 		local t = frame.bg:GetTexture()
 		if not t then
-			if fetchArt(frameData.bg_texture,"background") then
-				self:Print("Background Texture "..frameData.bg_texture.."("..fetchArt(frameData.bg_texture,"background")..") failed to load.")
+			local path = fetchArt(frameData.bg_texture,"background")
+			if  path then
+				self:Print("Background Texture "..frameData.bg_texture.."("..path..") failed to load.")
 			else
 				missingBackgrounds[name]=frameData.bg_texture
 				frame.bg:SetTexture(1,1,1,1)
@@ -773,14 +774,21 @@ function kgPanels:ResetTextures(frame,frameData,name)
 			end
 		end
 	end
-	if not fetchArt(frameData.border_texture,"border") then
-		missingBorders[name]=frameData.border_texture
-	elseif frameData.border_texture ~= "None" then
-		testingTexture:SetTexture(fetchArt(frameData.border_texture,"border"))
-		if not testingTexture:GetTexture() then
-			self:Print("Border texture "..frameData.border_texture.."("..fetchArt(frameData.border_texture,"border")..") failed to load.")
+	if frameData.border_texture and (frameData.border_texture) > 2 then 
+		local path = fetchArt(frameData.border_texture,"border")
+		if frameData.border_texture ~= l_None then
+			local nonePath = fetchArt(L_None,"border")
+			if not path then
+				missingBorders[name]=frameData.border_texture
+				self:Print("Border "..frameData.border_texture.." was not found in kgPanels or SharedMedia.")
+			else
+				testingTexture:SetTexture(path)
+				if not testingTexture:GetTexture() and path ~= nonePath then
+					self:Print("Border texture "..frameData.border_texture.." ("..path..") failed to load.")
+				end
+				testingTexture:SetTexture(nil)
+			end
 		end
-		testingTexture:SetTexture(nil)
 	end
 	if frameData.tiling then
 		frame.bg:SetTexture(nil)
