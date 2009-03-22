@@ -13,7 +13,7 @@ function kgPanelsConfig:InitArt()
 	end
 	special = false
 	for k,v in pairs(self.db.global.border) do
-		if k == "None" or k == L["Blizzard Tooltip"] or k == L["Blizzard Dialog"] then special = true else special = false end
+		if k == L["None"] or k == L["Blizzard Tooltip"] or k == L["Blizzard Dialog"] then special = true else special = false end
 		self:CreateArtMenu("border",k,v,special)
 	end	
 end
