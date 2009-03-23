@@ -314,6 +314,7 @@ local function injectArt()
 	end
 end
 local function fetchArt(art,artType)
+	if not art then return nil end
 	if kgPanels.db.global.artwork[art] and artType == "background"then
 		return kgPanels.db.global.artwork[art]
 	elseif kgPanels.db.global.border[art] and artType == "border" then
@@ -761,10 +762,10 @@ function kgPanels:ResetTextures(frame,frameData,name)
 		frame.bg:SetTexture(1,1,1,1)
 	end
 	if frameData.bg_texture and strlen(frameData.bg_texture) > 2 then
-		frame.bg:SetTexture(fetchArt(frameData.bg_texture,"background"))
+		local path = fetchArt(frameData.bg_texture,"background")
+		frame.bg:SetTexture(path)
 		local t = frame.bg:GetTexture()
 		if not t then
-			local path = fetchArt(frameData.bg_texture,"background")
 			if  path then
 				self:Print("Background Texture "..frameData.bg_texture.."("..path..") failed to load.")
 			else
