@@ -273,12 +273,12 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 								guide:DeleteGuide(self.lockFrames[panelName])
 								self.lockFrames[panelName] = nil
 							end
-							kgPanels:RemoveFrame(panelName)
-							-- remvoe from db
-							kgPanels.db.global.layouts[self.activeLayout][panelName] = nil
 							self.panelList[self:makeKey(panelName)] = nil
 							self.activePanels[panelName] = nil
 							self.panelNames[panelName] = nil
+							kgPanels:RemoveFrame(panelName)
+							-- remvoe from db
+							kgPanels.db.global.layouts[self.activeLayout][panelName] = nil
 							cfgreg:NotifyChange("kgPanelsConfig")
 						end,
 						confirm = true,
@@ -586,6 +586,101 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 						usage='10',
 						pattern = "%-?%d+",
 						arg = "y"
+					},
+					nudge = {
+						type = "group",
+						name = L["Nudge"],
+						desc = L["Nudge the panel position in a given direction."],
+						order = 61,
+						width = "half",
+						guiInline = true,
+						args = {
+							up = {
+								type = "execute",
+								name = L["Up"],
+								desc = "",
+								width = "half",
+								order=1,
+								func = function()
+									local v = panelData["y"]
+									v = v + 1
+									panelData["y"] = v
+									local frame = kgPanels:FetchFrame(panelName)
+									if frame then
+										kgPanels:ResetParent(frame,panelData,panelName)
+										if self.lockFrames[panelName] then
+											guide:DeleteGuide(self.lockFrames[panelName])
+											local g = guide:GetGuideFrame(panelName,panelData.anchorTo,panelData.anchorFrom,panelData.anchor)
+											self.lockFrames[panelName] = g
+										end
+									end
+								end
+							},
+							down = {
+								type = "execute",
+								name = L["Down"],
+								desc = "",
+								width="half",
+								order=2,
+								func = function()
+									local v = panelData["y"]
+									v = v - 1
+									panelData["y"] = v
+									local frame = kgPanels:FetchFrame(panelName)
+									if frame then
+										kgPanels:ResetParent(frame,panelData,panelName)
+										if self.lockFrames[panelName] then
+											guide:DeleteGuide(self.lockFrames[panelName])
+											local g = guide:GetGuideFrame(panelName,panelData.anchorTo,panelData.anchorFrom,panelData.anchor)
+											self.lockFrames[panelName] = g
+										end
+									end
+								end
+							},
+							left = {
+								type = "execute",
+								name = L["Left"],
+								desc = "",
+								width="half",
+								order=3,
+								func = function()
+									local v = panelData["x"]
+									v = v - 1
+									panelData["x"] = v
+									local frame = kgPanels:FetchFrame(panelName)
+									if frame then
+										kgPanels:ResetParent(frame,panelData,panelName)
+										if self.lockFrames[panelName] then
+											guide:DeleteGuide(self.lockFrames[panelName])
+											local g = guide:GetGuideFrame(panelName,panelData.anchorTo,panelData.anchorFrom,panelData.anchor)
+											self.lockFrames[panelName] = g
+										end
+									end
+								end
+								
+							},
+							right={
+								type = "execute",
+								name = L["Right"],
+								desc = "",
+								width = "half",
+								order=4,
+								func = function()
+									local v = panelData["x"]
+									v = v + 1
+									panelData["x"] = v
+									local frame = kgPanels:FetchFrame(panelName)
+									if frame then
+										kgPanels:ResetParent(frame,panelData,panelName)
+										if self.lockFrames[panelName] then
+											guide:DeleteGuide(self.lockFrames[panelName])
+											local g = guide:GetGuideFrame(panelName,panelData.anchorTo,panelData.anchorFrom,panelData.anchor)
+											self.lockFrames[panelName] = g
+										end
+									end
+								end
+							},
+						},
 					},
 					level = {
 						type = "range",
