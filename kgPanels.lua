@@ -314,15 +314,16 @@ local function injectArt()
 	end
 end
 
-function kgPanels:AddAsset(assetType, assertName, assetPath)
+function kgPanels:AddAsset(assetType, assetName, assetPath)
 	if assetType == "background" then
-		kgPanels.db.global.artwork[assetName] = assetPath
+		print("Adding "..assetName.." as "..assetPath)
+		self.db.global.artwork[assetName] = assetPath
 	end
 	if assetType == "border" then
-		kgPanels.db.global.border[assetName] = assetPath
+		self.db.global.border[assetName] = assetPath
 	end
 	if LSM and LSM.Register then
-		LSM:Register(assetType,assertName,assetPath)
+		LSM:Register(assetType,assetName,assetPath)
 	end
 end
 
