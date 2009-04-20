@@ -1,4 +1,4 @@
-## Interface: 30000
+## Interface: 30100
 ## LoadOnDemand: 1
 ## Notes: Configuration for kgPanels
 ## Title: kgPanelsConfig
