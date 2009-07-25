@@ -775,7 +775,7 @@ function kgPanels:ResetTextures(frame,frameData,name)
 		frame.bg:SetGradientAlpha(frameData.bg_orientation,frameData.bg_color.r,frameData.bg_color.g,frameData.bg_color.b,min(frameData.bg_color.a,alpha_override),frameData.gradient_color.r,frameData.gradient_color.g,frameData.gradient_color.b,min(frameData.gradient_color.a,alpha_override))
 		frame.bg:SetTexture(1,1,1,1)
 	end
-	if frameData.bg_texture and strlen(frameData.bg_texture) > 2 then
+	if frameData.bg_texture and strlen(frameData.bg_texture) > 0 then
 		local path = fetchArt(frameData.bg_texture,"background")
 		frame.bg:SetTexture(path)
 		local t = frame.bg:GetTexture()
@@ -789,7 +789,7 @@ function kgPanels:ResetTextures(frame,frameData,name)
 			end
 		end
 	end
-	if frameData.border_texture and strlen(frameData.border_texture) > 2 then 
+	if frameData.border_texture and strlen(frameData.border_texture) > 0 then 
 		local path = fetchArt(frameData.border_texture,"border")
 		if frameData.border_texture ~= l_None then
 			local nonePath = fetchArt(L_None,"border")
