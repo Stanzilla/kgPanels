@@ -599,6 +599,9 @@ function kgPanelsConfig:OnInitialize()
 end
 function kgPanelsConfig:OnProfileChanged()
 	local layoutName = kgPanels.db.profile.layout
+	if not self.db.global.layouts[layoutName] then
+		layoutName = nil
+	end
 	kgPanelsConfig:ActivateLayout(layoutName)
 	kgPanelsConfig:InitPanelMenus()
 end
