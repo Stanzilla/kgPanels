@@ -687,10 +687,13 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 						name = L["Level"],
 						desc = L["Panel level, for Z-Indexing."],
 						order = 70,
-						min = -20, 
+						min = 0, 
 						max = 20, 
 						step = 1, 
 						get = function(k)
+							if panelData[k.arg] < 0 then
+								panelData[k.arg] = 0
+							end
 							return panelData[k.arg]
 						end,
 						arg = "level",
