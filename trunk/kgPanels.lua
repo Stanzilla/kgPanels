@@ -757,6 +757,9 @@ function kgPanels:ResetParent(frame,frameData,name,overrideParent,overrideAnchor
 			frame:Hide()
 		end
 	end
+	if frameData.level < 0 then
+		frameData.level = 0
+	end
 	frame:SetFrameLevel(frameData.level)
 	frame:SetFrameStrata(frameData.strata)
 end
