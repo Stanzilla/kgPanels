@@ -816,8 +816,8 @@ function kgPanels:ResetTextures(frame,frameData,name)
 	end
 	frame:SetBackdropColor(frameData.bg_color.r,frameData.bg_color.g,frameData.bg_color.b,frameData.bg_color.a)
 	frame:SetBackdropBorderColor(frameData.border_color.r,frameData.border_color.g,frameData.border_color.b,frameData.border_color.a)
-	frame.bg:SetPoint("TOPLEFT", frame, "TOPLEFT", frameData.bg_insets.t, frameData.bg_insets.l);
-	frame.bg:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", frameData.bg_insets.b, frameData.bg_insets.r);
+	frame.bg:SetPoint("TOPLEFT", frame, "TOPLEFT", frameData.bg_insets.l, frameData.bg_insets.t);
+	frame.bg:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", frameData.bg_insets.r, frameData.bg_insets.b);
 	-- only use the backdrop for border.
 	-- rotating and flipping can only be done on a texture
 	frame.bg:SetTexCoord(unpack(angles[frameData.rotation]))
