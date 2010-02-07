@@ -42,7 +42,7 @@ local defaultPanelOptions = {
 	bg_texture = "None",
 	bg_alpha = 1,
 	bg_color = {r=.3,g=.3,b=.3,a=0.6},
-	bg_insets = {t=4,b=-4,l=-4,r=4},
+	bg_insets = {t=-4,b=4,l=4,r=-4},
 	bg_orientation = "HORIZONTAL",
 	gradient_color = {r=1,g=1,b=1,a=0},
 	text = {text="", color={r=1,g=1,b=1,a=1}, x=0,y=0,size = 0, justifyV="MIDDLE", justifyH="CENTER", font=""},
@@ -484,7 +484,7 @@ function kgPanels:OnEnable()
 	end
 end
 function kgPanels:UpgradeDB()
-	if self.db.global.version ~= 2 then
+	if self.db.global.version == 1 then
 		for k,v in pairs(self.db.global.layouts) do
 			for name,panel in pairs(v) do
 				if not panel.absolute_bg then
@@ -497,6 +497,36 @@ function kgPanels:UpgradeDB()
 			end
 		end
 		self.db.global.version = 2
+	end
+	if self.db.global.version == 2 then
+		for k,v in pairs(self.db.global.layouts) do
+			for name,panel in pairs(v) do
+				if panel.bg_insets then
+					local t,l,r,b
+					t = 0
+					l = 0
+					r = 0
+					b = 0
+					if panel.bg_insets.l then
+						t = panel.bg_insets.l
+					end
+					if panel.bg_insets.t then
+						l = panel.bg_insets.t
+					end
+					if panel.bg_insets.r then
+						b = panel.bg_insets.r
+					end
+					if panel.bg_insets.b then
+						r = panel.bg_insets.b
+					end
+					panel.bg_insets.t = t
+					panel.bg_insets.l = l
+					panel.bg_insets.b = b
+					panel.bg_insets.r = r
+				end
+			end
+		end	
+		self.db.global.version = 3
 	end
 end
 -- add a fetch method to check our library or LSM, and use it in place frame
