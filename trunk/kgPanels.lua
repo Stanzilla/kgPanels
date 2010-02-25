@@ -217,6 +217,9 @@ end
 local function reParentCheck(newframe)	
 	for frame,mparent in pairs(missingParents) do
 		local pf = parents[mparent]
+		if not (kgPanels.db.global.layouts[kgPanels.active] and  kgPanels.db.global.layouts[kgPanels.active][frame]) then
+			return
+		end
 		local isPercents = strmatch(kgPanels.db.global.layouts[kgPanels.active][frame].width, "%d+%.?%d*%%") or strmatch(kgPanels.db.global.layouts[kgPanels.active][frame].height, "%d+%.?%d*%%")
 		if pf or mparent == newframe then -- the frame we want just got created
 			-- make sure we dont parent to outselves
