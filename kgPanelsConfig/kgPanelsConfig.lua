@@ -50,7 +50,7 @@ local defaultPanelOptions = {
 	bg_texture = "None",
 	bg_alpha = 1,
 	bg_color = {r=.3,g=.3,b=.3,a=0.6},
-	bg_insets = {t=4,b=-4,l=-4,r=4},
+	bg_insets = {t=-4,b=4,l=4,r=-4},
 	bg_orientation = "HORIZONTAL",
 	gradient_color = {r=1,g=1,b=1,a=1},
 	text = {text="", color={r=1,g=1,b=1,a=1}, x=0,y=0,size = 0, justifyV="MIDDLE", justifyH="CENTER", font=L["Blizzard"]},
@@ -771,7 +771,8 @@ function kgPanelsConfig:ShowFrames()
 	local msg = "|cffffffff"..L["Frames"].."|r\n"
 	local frame = EnumerateFrames()
 	while frame do
-	    if frame:IsVisible() and MouseIsOver(frame) then
+    	if frame:IsVisible() and MouseIsOver(frame) then 
+	    --if frame:IsVisible() and frame:IsMouseOver() then -- 3.3 API
 			if frame.GetName and frame:GetName() then
 				msg = msg..frame:GetName().."\n"
 			else
