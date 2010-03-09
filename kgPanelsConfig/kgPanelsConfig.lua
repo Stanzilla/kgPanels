@@ -773,7 +773,7 @@ function kgPanelsConfig:ShowFrames()
 	while frame do
     	if frame:IsVisible() and MouseIsOver(frame) then 
 	    --if frame:IsVisible() and frame:IsMouseOver() then -- 3.3 API
-			if frame.GetName and frame:GetName() then
+			if frame.GetName() and frame:GetName() then
 				msg = msg..frame:GetName().."\n"
 			else
 				msg = msg..L["Unknown"].."\n"
