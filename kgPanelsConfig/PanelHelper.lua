@@ -961,6 +961,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 										usage="0.001",
 										order=8,
 									},
+									--[[]
 									cropFlag = {
 										type = "toggle",
 										name = L["Cropped"],
@@ -975,6 +976,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 										end,
 										order = 100,
 									}
+									--]]
 								}
 							}
 						},

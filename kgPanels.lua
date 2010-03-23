@@ -196,7 +196,7 @@ end
 -- need work, this method currently does jack and shit
 local function crop(texture,top,left,bottom,right)
 	local ULx,ULy,LLx,LLy,URx,URy,LRx,LRy = texture:GetTexCoord()
-	texture:SetTexCoordModifiesRect(true)
+	--texture:SetTexCoordModifiesRect(true)
 	texture:SetTexCoord(ULx+top,ULy+left,LLx+bottom,LLy+left,URx+top,URy+right,LRx+bottom,LRx+right)
 end
 
@@ -799,7 +799,7 @@ end
 function kgPanels:ResetTextures(frame,frameData,name)
 	frame.bg:SetTexCoord(0,1,0,1)
 	local ULx,ULy,LLx,LLy,URx,URy,LRx,LRy = frame.bg:GetTexCoord()
-	frame.bg:SetTexCoordModifiesRect(false)
+	--frame.bg:SetTexCoordModifiesRect(false)
 	frame.bg:SetBlendMode(frameData.bg_blend)
 	frame.bg:SetAlpha(frameData.bg_alpha)
 	-- need to adjust background alpha to be multiplicitive of the main frame alpha
@@ -856,9 +856,9 @@ function kgPanels:ResetTextures(frame,frameData,name)
 	frame.bg:SetTexCoord(unpack(angles[frameData.rotation]))
 	if frameData.use_absolute_bg and not frameData.tiling then
 		local coord = frameData.absolute_bg
-		if frameData.crop then
-			frame.bg:SetTexCoordModifiesRect(crop)
-		end
+		--if frameData.crop then
+		--	frame.bg:SetTexCoordModifiesRect(crop)
+		--end
 		frame.bg:SetTexCoord(coord.ULx,coord.ULy,coord.LLx,coord.LLy,coord.URx,coord.URy,coord.LRx,coord.LRy)
 	end
 	if frameData.hflip then
