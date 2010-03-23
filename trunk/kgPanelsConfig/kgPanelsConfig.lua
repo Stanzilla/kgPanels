@@ -771,8 +771,7 @@ function kgPanelsConfig:ShowFrames()
 	local msg = "|cffffffff"..L["Frames"].."|r\n"
 	local frame = EnumerateFrames()
 	while frame do
-    	if frame:IsVisible() and MouseIsOver(frame) then 
-	    --if frame:IsVisible() and frame:IsMouseOver() then -- 3.3 API
+	    if frame:IsVisible() and frame:IsMouseOver() then -- 3.3 API
 			if frame.GetName() and frame:GetName() then
 				msg = msg..frame:GetName().."\n"
 			else
