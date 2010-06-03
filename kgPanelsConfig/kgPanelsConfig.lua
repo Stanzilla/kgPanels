@@ -666,12 +666,12 @@ function kgPanelsConfig:CreateExport(layoutName)
 	gui = gui or LibStub("AceGUI-3.0")
 	local message = serializer:Serialize(kgPanels.db.global.layouts[layoutName])
 	local f = gui:Create("Frame")
+	local control = gui:Create("MultiLineEditBox")
 	f:ReleaseChildren()
-	f:SetCallback("OnClose", function(widget, event) gui:Release(widget)end)
+	f:SetCallback("OnClose", function(widget, event) control.button:Show(); gui:Release(widget) end)
 	f:SetTitle(L["kgPanels Layout Export"])
 	f:SetLayout("fill")
 	--f = scroll
-	local control = gui:Create("MultiLineEditBox")
 	control:SetHeight(300)
 	control:SetText(message)
 	control.width = "fill"
@@ -681,8 +681,6 @@ function kgPanelsConfig:CreateExport(layoutName)
 	f:SetHeight(300)
 	f:Show()
 	control.button:Hide()
-	--f.line1:Hide()
-	--f.line2:Hide()
 	if not IsMacClient() then
 		-- Windows or Linux
 		f.statustext:SetText(L["Press Ctrl-A to select the text, then Ctrl-C to copy."])
