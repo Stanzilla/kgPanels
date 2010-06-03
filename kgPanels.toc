@@ -7,7 +7,7 @@
 ## Version: @project-version@
 ## X-Email: sal.scotto@gmail.com
 ## X-License: All Rights Reserved
-## OptionalDeps: Ace3, LibSharedMedia-3.0, LibDataBroker-1.1
+## OptionalDeps: Ace3, LibSharedMedia-3.0, LibDataBroker-1.1, LibDualSpec-1.0
 
 #@no-lib-strip@
 embeds.xml
