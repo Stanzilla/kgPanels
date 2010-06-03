@@ -681,8 +681,8 @@ function kgPanelsConfig:CreateExport(layoutName)
 	f:SetHeight(300)
 	f:Show()
 	control.button:Hide()
-	f.line1:Hide()
-	f.line2:Hide()
+	--f.line1:Hide()
+	--f.line2:Hide()
 	if not IsMacClient() then
 		-- Windows or Linux
 		f.statustext:SetText(L["Press Ctrl-A to select the text, then Ctrl-C to copy."])
