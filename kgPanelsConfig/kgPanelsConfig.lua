@@ -585,9 +585,9 @@ function kgPanelsConfig:OnInitialize()
 	optionTable = self:makeOptions()
 	optionTable.args.profile = LibStub("AceDBOptions-3.0"):GetOptionsTable(kgPanels.db)
 	local LibDualSpec = LibStub('LibDualSpec-1.0')
-	LibDualSpec:EnhanceDatabase(self.db, "kgPanels")
-	LibDualSpec:EnhanceOptions(optionTable.args.profiles, kgPanels.db)
-	
+	if LibDualSpec then
+		LibDualSpec:EnhanceOptions(optionTable.args.profiles, kgPanels.db)
+	end
 	LibStub("AceConfig-3.0"):RegisterOptionsTable("kgPanelsConfig", optionTable) 
 	-- LAYOUT MENU SHORTCUTS
 	-- Holds layout menus.  Do not flush

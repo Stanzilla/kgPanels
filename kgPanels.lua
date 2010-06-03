@@ -401,6 +401,10 @@ local launcher
 function kgPanels:OnInitialize()
 	self.db = LibStub("AceDB-3.0"):New("kgPanelsDB", dbDefaults, "Default")
 	self:UpgradeDB()
+	local LibDualSpec = LibStub('LibDualSpec-1.0')
+	if LibDualSpec then
+		LibDualSpec:EnhanceDatabase(self.db, "kgPanels")
+	end
 	self:RegisterChatCommand("kgPanels","CommandLine",true,true)
 	self.parents = parents
 	self.angles = angles
