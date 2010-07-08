@@ -401,7 +401,7 @@ local launcher
 function kgPanels:OnInitialize()
 	self.db = LibStub("AceDB-3.0"):New("kgPanelsDB", dbDefaults, "Default")
 	self:UpgradeDB()
-	local LibDualSpec = LibStub('LibDualSpec-1.0')
+	local LibDualSpec = LibStub('LibDualSpec-1.0',true)
 	if LibDualSpec then
 		LibDualSpec:EnhanceDatabase(self.db, "kgPanels")
 	end
