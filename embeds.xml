@@ -6,5 +6,5 @@
 	<Include file="Libs\AceDB-3.0\AceDB-3.0.xml"/>
 	<Include file="Libs\AceConsole-3.0\AceConsole-3.0.xml"/>
 	<Include file="Libs\LibSharedMedia-3.0\lib.xml"/>
-	<Include file="Libs\LibDualSpec-1.0\LibDualSpec-1.0.lua"/>
+	<Script file="Libs\LibDualSpec-1.0\LibDualSpec-1.0.lua"/>
 </Ui>
