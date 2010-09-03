@@ -8,6 +8,7 @@
 ## Version: @project-version@
 ## X-License: All Rights Reserved
 ## X-Email: sal.scotto@gmail.com
+## X-Compatible-With: 40000
 ## OptionalDeps: Ace3, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets
 
 #@no-lib-strip@
