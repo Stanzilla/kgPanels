@@ -175,7 +175,7 @@ local angles = setmetatable({}, {
 -- If the frame doesn't exist, we'll mark it as dirty in our badParents table
 local parents = setmetatable({}, {
 	__index = function(t,k)
-		local p = getglobal(k)
+		local p = _G[k]
 		if p and type(p) == "table" and type(rawget(p,0)) == "userdata" then
 			rawset(t,k,p)
 			return p
