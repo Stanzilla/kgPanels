@@ -60,8 +60,8 @@ function GuideFrame:GetGuideFrame(name,to,from,anchor)
 		resizeTexture:SetTexture("Interface\\Addons\\kgPanelsConfig\\resize.tga")
 		resizeTexture:SetPoint("BOTTOMRIGHT",-2,2)
 		-- Set scripts to let us move while dragging
-		guide:SetScript("OnMouseDown",function(frame) GuideFrame:MouseDownListener(frame) end)
-		guide:SetScript("OnMouseUp",function(frame) GuideFrame:MouseUpListener(frame) end)	
+		guide:SetScript("OnMouseDown",function(frame,b) GuideFrame:MouseDownListener(frame,b) end)
+		guide:SetScript("OnMouseUp",function(frame,b) GuideFrame:MouseUpListener(frame,b) end)	
 		guide:Show()
 	end
 	guide.to = to
@@ -77,9 +77,9 @@ end
 --[[
 -- Listen for mouse-clicks on the guide frame
 --]]
-function GuideFrame:MouseDownListener(frame)
+function GuideFrame:MouseDownListener(frame,button)
 	-- On left-clicks, listen for mouse-dragging
-	if arg1 == "LeftButton" then	
+	if button == "LeftButton" then	
 		-- Set vars to figure out if the mouse is in the resize area or not
 		local screenX, screenY = GetCursorPosition()
 		local panelX = frame:GetRight()
