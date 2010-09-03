@@ -66,7 +66,7 @@ function GuideFrame:GetGuideFrame(name,to,from,anchor)
 	end
 	guide.to = to
 	guide.from = from
-	local anch = getglobal(anchor)
+	local anch = _G[anchor]
 	if not anch then
 		anch = kgPanels:FetchFrame(anchor)
 	end
