@@ -319,7 +319,6 @@ end
 
 function kgPanels:AddAsset(assetType, assetName, assetPath)
 	if assetType == "background" then
-		print("Adding "..assetName.." as "..assetPath)
 		self.db.global.artwork[assetName] = assetPath
 	end
 	if assetType == "border" then
@@ -819,8 +818,9 @@ function kgPanels:ResetTextures(frame,frameData,name)
 		local path = fetchArt(frameData.bg_texture,"background")
 		frame.bg:SetTexture(path)
 		local t = frame.bg:GetTexture()
+		local nonePath = fetchArt(L_None,"background")
 		if not t then
-			if  path then
+			if  path and path ~= nonePath then
 				self:Print("Background Texture "..frameData.bg_texture.."("..path..") failed to load.")
 			else
 				missingBackgrounds[name]=frameData.bg_texture
