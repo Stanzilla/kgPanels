@@ -832,7 +832,7 @@ function kgPanels:ResetTextures(frame,frameData,name)
 	if frameData.border_texture and strlen(frameData.border_texture) > 0 then 
 		local path = fetchArt(frameData.border_texture,"border")
 		if frameData.border_texture ~= l_None then
-			local nonePath = fetchArt(L_None,"border")
+			local nonePath = fetchArt(l_None,"border")
 			if not path then
 				missingBorders[name]=frameData.border_texture
 				self:Print("Border "..frameData.border_texture.." was not found in kgPanels or SharedMedia.")
