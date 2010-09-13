@@ -818,7 +818,7 @@ function kgPanels:ResetTextures(frame,frameData,name)
 		local path = fetchArt(frameData.bg_texture,"background")
 		frame.bg:SetTexture(path)
 		local t = frame.bg:GetTexture()
-		local nonePath = fetchArt(L_None,"background")
+		local nonePath = fetchArt(l_None,"background")
 		if not t then
 			if  path and path ~= nonePath then
 				self:Print("Background Texture "..frameData.bg_texture.."("..path..") failed to load.")
