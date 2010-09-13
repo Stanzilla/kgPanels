@@ -850,6 +850,9 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 								order = 8,
 								arg = "tiling",
 							},
+							--[[
+								CODE HERE to TILE base don the new options hor or vert
+							--]]
 							tile_size = 
 							{
 								type = 'range',
