@@ -817,15 +817,16 @@ function kgPanels:ResetTextures(frame,frameData,name)
 	if frameData.bg_texture and strlen(frameData.bg_texture) > 0 then
 		local path = fetchArt(frameData.bg_texture,"background")
 		frame.bg:SetTexture(path)
-		local t = frame.bg:GetTexture()
-		local nonePath = fetchArt(l_None,"background")
-		if not t then
-			if  path and path ~= nonePath then
-				self:Print("Background Texture "..frameData.bg_texture.."("..path..") failed to load.")
-			else
-				missingBackgrounds[name]=frameData.bg_texture
-				frame.bg:SetTexture("Interface\\Buttons\\WHITE8x8")
-				self:Print("Texture not found "..frameData.bg_texture.." in kgPanels or SharedMedia setting to solid white")
+		if frameData.bg_texture ~= l_None then
+			local t = frame.bg:GetTexture()
+			if not t then
+				if  path then
+					self:Print("Background Texture "..frameData.bg_texture.."("..path..") failed to load.")
+				else
+					missingBackgrounds[name]=frameData.bg_texture
+					frame.bg:SetTexture("Interface\\Buttons\\WHITE8x8")
+					self:Print("Texture not found "..frameData.bg_texture.." in kgPanels or SharedMedia setting to solid white")
+				end
 			end
 		end
 	end
