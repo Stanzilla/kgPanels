@@ -828,6 +828,8 @@ function kgPanels:ResetTextures(frame,frameData,name)
 					self:Print("Texture not found "..frameData.bg_texture.." in kgPanels or SharedMedia setting to solid white")
 				end
 			end
+		else
+			frame.bg:SetTexture("Interface\\Buttons\\WHITE8x8")
 		end
 	end
 	if frameData.border_texture and strlen(frameData.border_texture) > 0 then 
