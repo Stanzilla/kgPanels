@@ -829,7 +829,7 @@ function kgPanels:ResetTextures(frame,frameData,name)
 				end
 			end
 		else
-			frame.bg:SetTexture("Interface\\Buttons\\WHITE8x8")
+			frame.bg:SetTexture(nil)
 		end
 	end
 	if frameData.border_texture and strlen(frameData.border_texture) > 0 then 
