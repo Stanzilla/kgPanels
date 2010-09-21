@@ -19,6 +19,10 @@ local l_not_found = " not found."
 local gsub = string.gsub
 local default_font="Fonts\\FRIZQT__.TTF"
 
+local cataFeatures = select(4, _G.GetBuildInfo()) >= 40000
+
+kgPanels.isCata = cataFeatures
+
 local defaultPanelOptions = {
 	parent = "UIParent",
 	x = 0,
@@ -52,6 +56,9 @@ local defaultPanelOptions = {
 	absolute_bg = {ULx=0, ULy=0, LLx=0,LLy=1,URx=1,URy=0,LRx=1,LRy=1},
 	use_absolute_bg = false,
 	crop = false,
+	sub_level = 0,
+	vert_tile = false,
+	horz_tile = false,
 }
 -- inline localizations
 local gameLocale = GetLocale()
@@ -534,6 +541,18 @@ function kgPanels:UpgradeDB()
 		end	
 		self.db.global.version = 3
 	end
+	if self.db.global.version == 3 then
+		for k,v in pairs(self.db.global.layouts) do
+			for name,panel in pairs(v) do
+				if not panel.vert_tile then
+					panel.vert_tile = false
+					panel.horz_tile = false
+					panel.sub_level = 0
+				end
+			end
+		end
+		self.db.global.version = 4
+	end
 end
 -- add a fetch method to check our library or LSM, and use it in place frame
 function kgPanels:OnDisable()
@@ -696,6 +715,7 @@ end
 	use_absolute_bg=boolean
 	absolute_bg={ULx,ULy,LLx,LLy,URx,URy,LRx,LRy},
 	crop=false
+	sub_level = 0
 	:end format
 ]]
 function kgPanels:PlaceFrame(name,frameData, delay)
@@ -851,6 +871,15 @@ function kgPanels:ResetTextures(frame,frameData,name)
 	if frameData.tiling then
 		frame.bg:SetTexture(nil)
 		frame:SetBackdrop({	bgFile = fetchArt(frameData.bg_texture,"background"),edgeFile = fetchArt(frameData.border_texture,"border"),edgeSize = frameData.border_edgeSize,tile = true,tileSize = frameData.tileSize,insets = {left = frameData.bg_insets.l,right = frameData.bg_insets.r,top = frameData.bg_insets.t,bottom = frameData.bg_insets.b}})
+		if cataFeatures then
+			-- check direction
+			if frameData.vert_tile then
+				frame.bg:SetHorizTile(true)
+			end
+			if frameData.horz_tile then
+				frame.bg:SetVertTile(true)
+			end
+		end
 	else
 		frame:SetBackdrop({	bgFile = "",edgeFile = fetchArt(frameData.border_texture,"border"),edgeSize = frameData.border_edgeSize,tile = false,tileSize = 0,insets = {left = 0,right = 0,	top = 0,bottom = 0}})
 	end
@@ -876,7 +905,11 @@ function kgPanels:ResetTextures(frame,frameData,name)
 	end
 	frame:SetFrameLevel(frameData.level)
 	frame:SetFrameStrata(frameData.strata)
-	frame.bg:SetDrawLayer("BACKGROUND")
+	if cataFeatures then
+		frame.bg:SetDrawLayer("BACKGROUND",frameData.sub_level)
+	else
+		frame.bg:SetDrawLayer("BACKGROUND")
+	end
 end
 
 function kgPanels:ResetFont(name,fontdata)

@@ -706,6 +706,18 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 						order = 80,
 						arg = "strata",
 					},
+					subLevel = {
+						type = 'range',
+						name = 'Sublevel',
+						desc = 'Sublevel allows you to have multiple backgrounds in the same draw layer for stacking effects',
+						min = 0,
+						max = 100,
+						step = 1,
+						bigStep = 5,
+						order = 81,
+						arg = "sub_level",
+						disabled = function() return not kgPanels.isCata end,
+					},
 					scaling = {
 						type = "range",
 						name = L["Scaling"],
@@ -850,6 +862,22 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 								order = 8,
 								arg = "tiling",
 							},
+							vert_tile = {
+								type = 'toggle',
+								name = "Vertical Tiling",
+								desc = "Tile the background vertically.",
+								order = 9,
+								arg = "vert_tile",
+								disabled = function() return not kgPanels.isCata end,
+							},
+							horz_tile = {
+								type = 'toggle',
+								name = "Horizontal Tiling",
+								desc = "Tile the background horizontally.",
+								order = 10,
+								arg = "horz_tile",
+								disabled = function() return not kgPanels.isCata end,					
+							},
 							--[[
 								CODE HERE to TILE base don the new options hor or vert
 							--]]
@@ -858,7 +886,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 								type = 'range',
 								name = L["Tile Size"],
 								desc = L["Size of each tile."],
-								order = 9,
+								order = 11,
 								min = 1,
 								max = 128,
 								step = 1,
@@ -877,7 +905,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 								type = "toggle",
 								name = L["Custom Coords"],
 								desc = L["Use custom TexCoords. This is an adavance feature."],
-								order = 10,
+								order = 12,
 								arg = "use_absolute_bg"
 							},
 							textCoords = {
@@ -964,86 +992,10 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 										usage="0.001",
 										order=8,
 									},
-									--[[]
-									cropFlag = {
-										type = "toggle",
-										name = L["Cropped"],
-										desc = L["This will toggle SetTexCoordModifiesRect."],
-										get = function(info) return panelData["crop"] end,
-										set = function(info, val) 
-											panelData["crop"] = val 
-											local frame = kgPanels:FetchFrame(panelName)
-											if frame then
-												kgPanels:ResetTextures(frame,panelData,panelName)
-											end	
-										end,
-										order = 100,
-									}
-									--]]
 								}
 							}
 						},
 					},
-					--[[
-					crop = 
-					{
-						type = "group",
-						guiInline = true,
-						name = "Crop",
-						desc = "Crop Options",
-						get = function(info)
-							return tostring(panelData.bg_insets[info.arg])
-						end,
-						set = function(info,val)
-							panelData.bg_insets[info.arg] = val
-							local frame = kgPanels:FetchFrame(panelName)
-							if frame then
-								kgPanels:ResetTextures(frame,panelData,panelName)
-							end
-						end,
-						args = {
-							left = {
-								type = 'input',
-								name = "Top", 
-								desc = "Top background inset.",
-								width = "half",
-								usage='10.0',
-								--pattern = "%d+%.?%d*%%?",
-								order = 1,
-								arg = "t"
-							},
-							right = {
-								type = 'input',
-								name = "Left", 
-								desc = "Left background inset.",
-								width = "half",
-								usage='10.0',
-								--pattern = "%d+%.?%d*%%?",
-								order = 2,
-								arg = "l"
-							},
-							top = {
-								type = 'input',
-								name = "Bottom", 
-								desc = "Bottom background inset.",
-								order = 3,
-								usage='10.0',
-								--pattern = "%d+%.?%d*%%?",
-								width = "half",
-								arg = "b"
-							},
-							bottom = {
-								type = 'input',
-								name = "Right", 
-								desc = "Right background inset.",
-								width = "half",
-								usage='10.0',
-								--pattern = "%d+%.?%d*%%?",
-								order = 4,
-								arg = "r"
-							},
-						},
-					},	]]				
 					backgroundInsetSize = 
 					{
 						type = "group",
