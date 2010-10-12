@@ -1,4 +1,4 @@
-## Interface: 30300
+## Interface: 40000
 ## LoadOnDemand: 1
 ## Notes: Configuration for kgPanels
 ## Title: kgPanelsConfig
@@ -8,7 +8,7 @@
 ## Version: @project-version@
 ## X-License: All Rights Reserved
 ## X-Email: sal.scotto@gmail.com
-## X-Compatible-With: 40000
+## X-Compatible-With: 30300
 ## OptionalDeps: Ace3, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets
 
 #@no-lib-strip@
