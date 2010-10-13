@@ -234,7 +234,7 @@ local function reParentCheck(newframe)
 			if pf then
 				if (isPercents and pf:GetWidth() > 0 and pf:GetHeight() > 0) or not isPercents then
 					kgPanels:ResetParent(activeFrames[frame],kgPanels.db.global.layouts[kgPanels.active][frame],frame)
-					if pf:IsShown() then activeFrames[frame]:Show();updateChildVisibility(activeFrames[frame]) end
+					activeFrames[frame]:Show();updateChildVisibility(activeFrames[frame])
 					missingParents[frame] = nil
 					checkFrames = checkFrames -1
 					activeFrames[frame].missing_parent_at_load = false
@@ -245,7 +245,7 @@ local function reParentCheck(newframe)
 		elseif activeFrames[mparent] and activeFrames[mparent] ~= frame then -- check the list of self frames
 			if (isPercents and activeFrames[mparent]:GetWidth() > 0 and activeFrames[mparent]:GetHeight() > 0) or not isPercents then
 				kgPanels:ResetParent(activeFrames[frame],kgPanels.db.global.layouts[kgPanels.active][frame],frame)
-				if activeFrames[mparent]:IsShown() then activeFrames[frame]:Show();updateChildVisibility(activeFrames[frame]) end
+				activeFrames[frame]:Show();updateChildVisibility(activeFrames[frame])
 				missingParents[frame] = nil
 				checkFrames = checkFrames -1
 				activeFrames[frame].missing_parent_at_load = false
