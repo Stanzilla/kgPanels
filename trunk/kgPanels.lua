@@ -828,15 +828,13 @@ function kgPanels:ResetTextures(frame,frameData,name)
 	-- need to adjust background alpha to be multiplicitive of the main frame alpha
 	local alpha_override = frameData.bg_alpha
 	if frameData.bg_style == "SOLID" then
-		frame.bg:SetTexture("Interface\\Buttons\\WHITE8x8")
 		frame.bg:SetGradientAlpha(frameData.bg_orientation,frameData.bg_color.r,frameData.bg_color.g,frameData.bg_color.b,min(frameData.bg_color.a,alpha_override),frameData.bg_color.r,frameData.bg_color.g,frameData.bg_color.b,min(frameData.bg_color.a,alpha_override))
 		frame.bg:SetTexture(frameData.bg_color.r,frameData.bg_color.g,frameData.bg_color.b,min(frameData.bg_color.a,alpha_override))
 	elseif frameData.bg_style == "GRADIENT" then
-		frame.bg:SetTexture("Interface\\Buttons\\WHITE8x8")
 		frame.bg:SetGradientAlpha(frameData.bg_orientation,frameData.bg_color.r,frameData.bg_color.g,frameData.bg_color.b,min(frameData.bg_color.a,alpha_override),frameData.gradient_color.r,frameData.gradient_color.g,frameData.gradient_color.b,min(frameData.gradient_color.a,alpha_override))
 		frame.bg:SetTexture(1,1,1,1)
 	end
-	if frameData.bg_texture and strlen(frameData.bg_texture) > 0 and frameData.bg_style == "NONE" then
+	if frameData.bg_texture and strlen(frameData.bg_texture) > 0 then
 		local path = fetchArt(frameData.bg_texture,"background")
 		frame.bg:SetTexture(path)
 		if frameData.bg_texture ~= l_None then
