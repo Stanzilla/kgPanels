@@ -43,7 +43,7 @@ local defaultPanelOptions = {
 	border_edgeSize = 16,
 	bg_blend = "BLEND",
 	bg_style = "SOLID",
-	bg_texture = "None",
+	bg_texture = "Solid",
 	bg_alpha = 1,
 	bg_color = {r=.3,g=.3,b=.3,a=0.6},
 	bg_insets = {t=-4,b=4,l=4,r=-4},
@@ -107,7 +107,8 @@ end
 local dbDefaults = {
 	global = {
 		artwork = {
-			[l_None]  = "Interface\\None"
+			[l_None]  = "Interface\\None",
+			["Solid"] = "Interface\\Buttons\\WHITE8x8",
 		},
 		border = {
 			[l_None]    = "Interface\\None",
@@ -552,6 +553,16 @@ function kgPanels:UpgradeDB()
 			end
 		end
 		self.db.global.version = 4
+	end
+	if self.db.global.version == 4 then
+		for k,v in pairs(self.db.global.layouts) do
+			for name,panel in pairs(v) do
+				if panel.bg_style ~= "NONE" and panel.bg_texture == l_None then
+					panel.bg_texture = "Solid"
+				end
+			end
+		end
+		self.db.global.version = 5
 	end
 end
 -- add a fetch method to check our library or LSM, and use it in place frame
