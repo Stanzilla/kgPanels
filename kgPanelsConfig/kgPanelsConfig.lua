@@ -47,7 +47,7 @@ local defaultPanelOptions = {
 	border_edgeSize = 16,
 	bg_blend = "BLEND",
 	bg_style = "SOLID",
-	bg_texture = "None",
+	bg_texture = "Solid",
 	bg_alpha = 1,
 	bg_color = {r=.3,g=.3,b=.3,a=0.6},
 	bg_insets = {t=-4,b=4,l=4,r=-4},
