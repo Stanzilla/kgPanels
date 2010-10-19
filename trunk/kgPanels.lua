@@ -860,9 +860,7 @@ function kgPanels:ResetTextures(frame,frameData,name)
 				end
 			end
 		else
-			if frameData.bg_style == "NONE" then
-				frame.bg:SetTexture(nil)
-			end
+			frame.bg:SetTexture(nil)
 		end
 	end
 	if frameData.border_texture and strlen(frameData.border_texture) > 0 then 
