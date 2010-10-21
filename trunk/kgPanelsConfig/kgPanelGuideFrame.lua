@@ -96,11 +96,11 @@ function GuideFrame:MouseDownListener(frame,button)
 		-- Start resizing
 		if check1 and check2 and check3 and check4 then
 			frame.isResizing = true
-			frame:SetScript("OnUpdate", function(frame) self:ResizeListener(frame) end)
+			frame:SetScript("OnUpdate", function(frame) GuideFrame:ResizeListener(frame) end)
 			frame:StartSizing("BOTTOMRIGHT")
 		else
 			frame.isMoving = true
-			frame:SetScript("OnUpdate", function(frame) self:MoveListener(frame) end)
+			frame:SetScript("OnUpdate", function(frame) GuideFrame:MoveListener(frame) end)
 			frame:StartMoving()
 		end
 	end
@@ -119,8 +119,8 @@ function GuideFrame:MouseUpListener(frame)
 	-- at this point the mouse button has been released save the positions
 	local panelFrame = kgPanels:FetchFrame(frame.panel)
 	local scale,pscale = frame:GetEffectiveScale(),panelFrame:GetParent():GetEffectiveScale()
-	local gX,gY = self:GetXY(frame.from,frame)
-	local pX,pY = self:GetXY(frame.to,frame.anchor)
+	local gX,gY = GuideFrame:GetXY(frame.from,frame)
+	local pX,pY = GuideFrame:GetXY(frame.to,frame.anchor)
 	local x = (gX * scale) - (pX * pscale)
 	local y = (gY * scale) - (pY * pscale)
 	x = x/scale
