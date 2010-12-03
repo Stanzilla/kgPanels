@@ -3,7 +3,6 @@ All Hello Kitty intellectual property and materials are © Sanrio
 ]]
 local kgPanels = LibStub("AceAddon-3.0"):NewAddon("kgPanels", "AceConsole-3.0")
 local LSM = LibStub:GetLibrary("LibSharedMedia-3.0",true)
-local DataBroker = LibStub:GetLibrary("LibDataBroker-1.1",true)
 --[[
 	some defaults
 ]]
@@ -416,6 +415,7 @@ function kgPanels:OnInitialize()
 	self.parents = parents
 	self.angles = angles
 	self.flip = flip
+	local DataBroker = LibStub:GetLibrary("LibDataBroker-1.1",true)
 	if DataBroker then
 		local launcher = DataBroker:NewDataObject("kgPanels", {
 		    type = "launcher",
