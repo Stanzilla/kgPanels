@@ -1139,7 +1139,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 								desc = L["Font to use for this panel."],
 								values = fontList,
 								dialogControl = 'LSM30_Font',
-								disabled = function() return not IsAddOnLoaded("LibSharedMedia-3.0") end,
+								disabled = function() return SharedMedia == nil end,
 								order = 40,
 								get = function() 
 									if strlen(panelData.text.font) < 1 then
