@@ -540,6 +540,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 					local frame = kgPanels:FetchFrame(panelName)
 					if frame then
 						kgPanels:ResetParent(frame,panelData,panelName)
+						kgPanels:ResetTextures(frame,panelData,panelName)
 						if self.lockFrames[panelName] then
 							guide:DeleteGuide(self.lockFrames[panelName])
 							local g = guide:GetGuideFrame(panelName,panelData.anchorTo,panelData.anchorFrom,panelData.anchor)
@@ -714,8 +715,13 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 						max = 7,
 						step = 1,
 						order = 81,
+						get = function(k)
+							if not panelData[k.arg] then
+								panelData[k.arg] = 0
+							end
+							return panelData[k.arg]
+						end,
 						arg = "sub_level",
-						disabled = function() return not kgPanels.isCata end,
 					},
 					scaling = {
 						type = "range",
