@@ -1,4 +1,4 @@
-## Interface: 40100
+## Interface: 40200
 ## LoadOnDemand: 1
 ## Notes: Configuration for kgPanels
 ## Title: kgPanelsConfig
