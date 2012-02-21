@@ -956,7 +956,7 @@ function kgPanels:SetupScript(frame,hook,code,name,initial)
 		frame:SetScript("OnEvent",nil)
 	end
 	if hook == "UPDATE" and strlen(code) > 1 then
-		local func, errorMessage = loadstring("return function(self,time) "..makeRef().." "..code.." end",name.."_OnUpdate")
+		local func, errorMessage = loadstring("return function(self,elapsed) "..makeRef().." "..code.." end",name.."_OnUpdate")
 		if func then
 			frame:SetScript("OnUpdate",func())
 		else
