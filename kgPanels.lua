@@ -1023,7 +1023,7 @@ function kgPanels:SetupScript(frame,hook,code,name,initial)
 		frame:SetScript("OnMouseUp",nil)
 	end
 	if hook == "RESIZE" and strlen(code) > 1 then
-		local func, errorMessage = loadstring("return function(self,height,width) "..makeRef().." "..code.." end",name.."_OnResize")
+		local func, errorMessage = loadstring("return function(self,width,height) "..makeRef().." "..code.." end",name.."_OnResize")
 		if func then
 			frame:SetScript("OnSizeChanged",func())
 		else
