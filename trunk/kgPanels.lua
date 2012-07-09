@@ -106,11 +106,11 @@ end
 local dbDefaults = {
 	global = {
 		artwork = {
-			[l_None]  = "Interface\\None",
+			[l_None]  = "",
 			["Solid"] = "Interface\\Buttons\\WHITE8x8",
 		},
 		border = {
-			[l_None]    = "Interface\\None",
+			[l_None]    = "",
 			[l_Tooltip] = "Interface\\Tooltips\\UI-Tooltip-Border",
 			[l_Dialog]  = "Interface\\DialogFrame\\UI-DialogBox-Border"
 		},
