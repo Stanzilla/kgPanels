@@ -110,7 +110,7 @@ local dbDefaults = {
 			["Solid"] = "Interface\\Buttons\\WHITE8x8",
 		},
 		border = {
-			[l_None]    = "",
+			[l_None]    = false,
 			[l_Tooltip] = "Interface\\Tooltips\\UI-Tooltip-Border",
 			[l_Dialog]  = "Interface\\DialogFrame\\UI-DialogBox-Border"
 		},
@@ -347,7 +347,9 @@ local function fetchArt(art,artType)
 	elseif LSM and LSM.Fetch and LSM:Fetch("background",art,true) and artType == "background" then
 		return LSM:Fetch("background",art,true)
 	end
-	kgPanels:Print("Failed to find artwork "..art.." type "..artType)
+	if art ~= l_None then
+		kgPanels:Print("Failed to find artwork "..art.." type "..artType)
+	end
 	return nil
 end
 local function fetchFont(font)
