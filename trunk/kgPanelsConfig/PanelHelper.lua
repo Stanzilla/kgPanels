@@ -867,13 +867,14 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 								order = 8,
 								arg = "tiling",
 							},
+							--[[
 							vert_tile = {
 								type = 'toggle',
 								name = L["Vertical Tiling"],
 								desc = L["Tile the background vertically."],
 								order = 9,
 								arg = "vert_tile",
-								disabled = function() return true end, -- return not (kgPanels.isCata and panelData["tiling"]) end,
+								disabled = function() return not (kgPanels.isCata and panelData["tiling"]) end,
 							},
 							horz_tile = {
 								type = 'toggle',
@@ -881,8 +882,9 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 								desc = L["Tile the background horizontally."],
 								order = 10,
 								arg = "horz_tile",
-								disabled = function() return true end, --return not (kgPanels.isCata and panelData["tiling"]) end,					
+								disabled = function() return not (kgPanels.isCata and panelData["tiling"]) end,					
 							},
+							--]]
 							--[[
 								CODE HERE to TILE base don the new options hor or vert
 							--]]
@@ -1089,7 +1091,107 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 						step = 1, 
 						order = 3,
 						arg = "border_edgeSize",
-					},			
+					},
+					borderCustom = {
+						type = "group",
+						name = L["Advanced Texture Options"],
+						order = 5,
+						get = function(info) return panelData.border_advanced.show[info.arg] end,
+						set = function(info,val) 
+							panelData.border_advanced.show[info.arg] = val
+							local frame = kgPanels:FetchFrame(panelName)
+							if frame then
+								kgPanels:ResetTextures(frame,panelData,panelName)
+							end
+						end,
+						args = {
+							enable = {
+								type = "group",
+								name = L["Enable Advanced Border Functions"],
+								desc = L["Enable Advanced Border Features"],
+								guiInline = true,
+								order = 1,
+								get = function(info) return panelData.border_advanced.enable end,
+								set = function(info,val) 
+									panelData.border_advanced.enable = val 
+									local frame = kgPanels:FetchFrame(panelName)
+									if frame then
+										kgPanels:ResetTextures(frame,panelData,panelName)
+									end
+								end,
+								args = {
+									button = {
+										type = "toggle",
+										name = L["Enable"],
+									}
+								}
+							},
+							top = {
+								type = "toggle",
+								name = L["Top"],
+								desc = L["Hide or Show the Top border."],
+								arg = "TOP",
+								order = 2,
+								disabled = function() return not panelData.border_advanced.enable end,
+							},
+							bot = {
+								type = "toggle",
+								name = L["Bottom"],
+								order = 3,
+								desc = L["Hide or Show the Bottom border."],
+								arg = "BOT",
+								disabled = function() return not panelData.border_advanced.enable end,
+							},
+							left = {
+								type = "toggle",
+								name = L["Left"],
+								desc = L["Hide or Show the Left border."],
+								arg = "LEFT",
+								disabled = function() return not panelData.border_advanced.enable end,
+								order = 4,
+							},
+							right = {
+								type = "toggle",
+								name = L["Right"],
+								desc = L["Hide or Show the Right border."],
+								arg = "RIGHT",
+								disabled = function() return not panelData.border_advanced.enable end,
+								order = 5,
+							},
+							topleft = {
+								type = "toggle",
+								name = L["Top Left Corner"],
+								desc = L["Hide or Show the Top Left Corner."],
+								arg = "TOPLEFTCORNER",
+								order = 6,
+								disabled = function() return not panelData.border_advanced.enable end,
+							},
+							topright = {
+								type = "toggle",
+								name = L["Top Right Corner"],
+								desc = L["Hide or Show the Top Right Corner."],
+								arg = "TOPRIGHTCORNER",
+								order = 7,
+								disabled = function() return not panelData.border_advanced.enable end,
+							},
+							botleft = {
+								type = "toggle",
+								name = L["Bottom Left Corner"],
+								desc = L["Hide or Show the Bottom Left Corner."],
+								arg = "BOTLEFTCORNER",
+								order = 8,
+								disabled = function() return not panelData.border_advanced.enable end,
+							},
+							botright = {
+								type = "toggle",
+								name = L["Bottom Right Corner"],
+								desc = L["Hide or Show the Bottom Right Corner."],
+								arg = "BOTRIGHTCORNER",
+								order = 9,
+								disabled = function() return not panelData.border_advanced.enable end,
+							},
+						}
+					}			
 				},
 			},
 			
