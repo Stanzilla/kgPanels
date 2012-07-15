@@ -30,6 +30,10 @@ end
 		assetPath: filesystem path to the artwork
 ]]-------------------------------------------------------------
 function kgPanelsConfig:CreateArt(assetType, assetName, assetPath)
+	local ap = assetPath
+	if not ap then
+		assetPath = ""
+	end
 	self.db.global[assetType][assetName] = assetPath
 	kgPanelsConfig:CreateArtMenu(assetType, assetName, assetPath, false)
 	kgPanelsConfig:InjectArt(assetType,assetName)
@@ -71,7 +75,13 @@ function kgPanelsConfig:CreateArtMenu(assetType, assetName, assetPath, special)
 							self.artLibrary.backgrounds.args[sanitizedName].args.preview = {
 								type = "description",
 								name = "",
-								image = self.db.global[assetType][assetName], 
+								image = function() 
+									if not self.db.global[assetType][assetName] then 
+										return "" 
+									else 
+										return self.db.global[assetType][assetName] 
+									end
+								end,
 								imageWidth = width,
 								imageHeight = height,
 								order = 5,
@@ -80,7 +90,13 @@ function kgPanelsConfig:CreateArtMenu(assetType, assetName, assetPath, special)
 							self.artLibrary.borders.args[sanitizedName].args.preview = {
 								type = "description",
 								name = "",
-								image = self.db.global[assetType][assetName], 
+								image = function() 
+									if not self.db.global[assetType][assetName] then 
+										return "" 
+									else 
+										return self.db.global[assetType][assetName] 
+									end
+								end,
 								imageWidth = width,
 								imageHeight = height,
 								order = 5,
@@ -138,7 +154,13 @@ function kgPanelsConfig:CreateArtMenu(assetType, assetName, assetPath, special)
 			{
 				type = "description",
 				name = "",
-				image = self.db.global[assetType][assetName], 
+				image = function() 
+					if not self.db.global[assetType][assetName] then 
+						return "" 
+					else 
+						return self.db.global[assetType][assetName] 
+					end
+				end,
 				imageWidth = width,
 				imageHeight = height,
 				order = 5,

@@ -45,6 +45,19 @@ local defaultPanelOptions = {
 	border_color = {r=1,g=1,b=1,a=1},
 	border_texture = "Blizzard Tooltip",
 	border_edgeSize = 16,
+	border_advanced = {
+		enable = false,
+		show ={
+			TOP = true,
+			BOT = true,
+			LEFT = true,
+			RIGHT = true,
+			TOPLEFTCORNER = true,
+			TOPRIGHTCORNER = true,
+			BOTLEFTCORNER = true,
+			BOTRIGHTCORNER = true,
+		}
+	},
 	bg_blend = "BLEND",
 	bg_style = "SOLID",
 	bg_texture = "Solid",
