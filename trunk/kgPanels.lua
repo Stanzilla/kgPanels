@@ -325,7 +325,6 @@ local function recycleFrame(frame)
 	frame.onload_already_exected = false
 	frame.missing_parent_at_load = false
 	frame.missing_anchor_at_load = false
-	BD:DisableEhancements(frame)
 	frameCache[frame] = true
 end
 local function injectArt()
@@ -353,6 +352,9 @@ end
 
 local function fetchArt(art,artType)
 	if not art then return nil end
+	if art == l_None then
+		return nil
+	end
 	if kgPanels.db.global.artwork[art] and artType == "background"then
 		return kgPanels.db.global.artwork[art]
 	elseif kgPanels.db.global.border[art] and artType == "border" then
@@ -385,7 +387,6 @@ local function getFrame()
 	local frame = next(frameCache)
 	if frame then
 		frame:SetParent(UIParent)
-		BD:EnableEnhancements(frame)
 		frameCache[frame] = nil
 	else
 		frame = CreateFrame("Frame","kgPanel"..panelIndex,parents["UIParent"])
@@ -887,12 +888,7 @@ end
 function kgPanels:ResetTextures(frame,frameData,name)
 	frame.bg:SetTexCoord(0,1,0,1)
 	frame:BorderTextureFunction("Show")
-	local ULx,ULy,LLx,LLy,URx,URy,LRx,LRy = frame.bg:GetTexCoord()
-	if frameData.border_advanced and frameData.border_advanced.enable then
-		BD:EnableEnhancements(frame)
-	else
-		BD:DisableEhancements(frame)		
-	end
+	local ULx,ULy,LLx,LLy,URx,URy,LRx,LRy = frame.bg:GetTexCoord()	
 	--frame.bg:SetTexCoordModifiesRect(false)
 	frame.bg:SetBlendMode(frameData.bg_blend)
 	frame.bg:SetAlpha(frameData.bg_alpha)
