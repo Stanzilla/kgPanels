@@ -393,7 +393,9 @@ local function getFrame()
 		frame.bg = frame:CreateTexture(nil, "PARENT")
 		frame.text = frame:CreateFontString(nil, "OVERLAY");
 		panelIndex = panelIndex + 1
-		BD:EnhanceBackdrop(frame)
+		if BD then
+			BD:EnhanceBackdrop(frame)
+		end
 	end
 	frame:SetScript("OnEvent",nil)
 	frame:SetScript("OnUpdate",nil)
@@ -979,7 +981,7 @@ function kgPanels:ResetTextures(frame,frameData,name)
 	else
 		frame.bg:SetDrawLayer("BACKGROUND")
 	end
-	if frameData.border_advanced.enable then
+	if frameData.border_advanced.enable and BD then
 		for k,v in pairs(frameData.border_advanced.show) do
 			if v == false then
 				frame:GetBackdropBorderSection(k):Hide()				
