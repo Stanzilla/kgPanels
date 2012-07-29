@@ -18,3 +18,5 @@ externals:
 
 move-folders:
     kgPanels/kgPanelsConfig: kgPanelsConfig
+
+enable-nolib-creation: no

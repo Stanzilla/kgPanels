@@ -889,7 +889,11 @@ function kgPanels:ResetParent(frame,frameData,name,overrideParent,overrideAnchor
 end
 function kgPanels:ResetTextures(frame,frameData,name)
 	frame.bg:SetTexCoord(0,1,0,1)
-	frame:BorderTextureFunction("Show")
+	if frameData.border_advanced.enable and BD then
+	 	BD:EnableEnhancements(frame)
+	else
+		BD:DisableEhancements(frame) 		
+	end
 	local ULx,ULy,LLx,LLy,URx,URy,LRx,LRy = frame.bg:GetTexCoord()	
 	--frame.bg:SetTexCoordModifiesRect(false)
 	frame.bg:SetBlendMode(frameData.bg_blend)
