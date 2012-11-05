@@ -861,22 +861,24 @@ function kgPanels:ResetParent(frame,frameData,name,overrideParent,overrideAnchor
 	if frameData.scale then
 		frame:SetScale(frameData.scale)
 	end
+	local scale = frame:GetScale()
+	
 	local anchor = parents[frameData.anchor]
 	if overrideAnchor then
 		anchor = overrideAnchor
 	end
 	-- setup the kgPanel's anchor.  If anchor doesn't exist, we'l attach it to the UIParent for now
 	if anchor then
-		frame:SetPoint(frameData.anchorFrom,anchor,frameData.anchorTo,frameData.x,frameData.y)
+		frame:SetPoint(frameData.anchorFrom,anchor,frameData.anchorTo,frameData.x/scale,frameData.y/scale)
 	else
 		-- check to see if we are tryin to parent of own of our own frames
 		-- dont all self refering anchors
 		if activeFrames[frameData.anchor] and activeFrames[frameData.anchor] ~= frame then
-			frame:SetPoint(frameData.anchorFrom,activeFrames[frameData.anchor],frameData.anchorTo,frameData.x,frameData.y)
+			frame:SetPoint(frameData.anchorFrom,activeFrames[frameData.anchor],frameData.anchorTo,frameData.x/scale,frameData.y/scale)
 		else
 			missingAnchors[name] = frameData.anchor
 			checkFrames = checkFrames + 1
-			frame:SetPoint(frameData.anchorFrom,parents["UIParent"],frameData.anchorTo,frameData.x,frameData.y)
+			frame:SetPoint(frameData.anchorFrom,parents["UIParent"],frameData.anchorTo,frameData.x/scale,frameData.y/scale)
 			frame.missing_anchor_at_load = true
 			frame:Hide()
 		end
