@@ -163,7 +163,7 @@ end
 	-- Generate our panel menus for the active layout
 ]]
 function kgPanelsConfig:InitPanelMenus()
-	activePanels = {}
+	local activePanels = {}
 	local layoutdata = kgPanels.db.global.layouts[self.activeLayout] or {}
 	for k,v in pairs(layoutdata) do
 		self.activePanels[k] = v
@@ -179,7 +179,7 @@ end
 function kgPanelsConfig:CreatePanel(name, data)
 	local panelName = name
 	-- Check if the panel name exists already, and modify it if there's a collision
-	panelname = kgPanelsConfig:uniqueName(panelName, self.panelList, 0)
+	panelName = kgPanelsConfig:uniqueName(panelName, self.panelList, 0)
 	if not data then
 		self.activePanels[panelName] = DeepCopy(kgPanels.db.global.defaultPanel)
 		data = self.activePanels[panelName]
