@@ -1,4 +1,4 @@
-## Interface: 70200
+## Interface: 70300
 ## Notes: Create panels for customizing your UI, sucessor to eePanels
 ## Title: kgPanels
 ## Author: kagaro
