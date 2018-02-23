@@ -128,7 +128,7 @@ local dbDefaults = {
 			[l_None] = {},
 		}, -- [layout name] = { [framename] = {data}, [framename] = {data} }
 		defaultPanel = defaultPanelOptions,
-		layout_deps = { 
+		layout_deps = {
 			["*"] = {}
 		}, -- [layout] = "addon"
 	},
@@ -218,8 +218,8 @@ local function crop(texture,top,left,bottom,right)
 end
 
 local function executeScripts(frame,frameData,name)
-	if frameData.scripts then		
-		kgPanels:InitScripts(frame,name,frameData)			
+	if frameData.scripts then
+		kgPanels:InitScripts(frame,name,frameData)
 	end
 end
 
@@ -231,7 +231,7 @@ local function updateChildVisibility(frame)
 end
 -- When a frame is created, we want to loop through every one of our panels which are using that frame as a parent/anchor
 -- and then to reconfigure the panel to work with the newly created frame
-local function reParentCheck(newframe)	
+local function reParentCheck(newframe)
 	for frame,mparent in pairs(missingParents) do
 		local pf = parents[mparent]
 		if not (kgPanels.db.global.layouts[kgPanels.active] and  kgPanels.db.global.layouts[kgPanels.active][frame]) then
@@ -267,7 +267,7 @@ local function reParentCheck(newframe)
 	for frame,manchor in pairs(missingAnchors) do
 		if activeFrames[manchor] and activeFrames[manchor] ~= frame then -- check the list of self frames
 			kgPanels:ResetParent(activeFrames[frame],kgPanels.db.global.layouts[kgPanels.active][frame],frame)
-			activeFrames[frame]:Show() 
+			activeFrames[frame]:Show()
 			updateChildVisibility(activeFrames[frame])
 			missingAnchors[frame] = nil
 			checkFrames = checkFrames - 1
@@ -279,7 +279,7 @@ local function reParentCheck(newframe)
 			if activeFrames[frame] == parents[manchor] then error("Attempting to anchor frame to self") end
 			if parents[manchor] then
 				kgPanels:ResetParent(activeFrames[frame],kgPanels.db.global.layouts[kgPanels.active][frame],frame)
-				activeFrames[frame]:Show(); 
+				activeFrames[frame]:Show();
 				updateChildVisibility(activeFrames[frame])
 				missingAnchors[frame] = nil
 				checkFrames = checkFrames -1
@@ -291,7 +291,7 @@ local function reParentCheck(newframe)
 	end
 end
 
--- Called from securly hooked CreateFrame().  Check if the frame being created is one of the frames marked as dirty in 
+-- Called from securly hooked CreateFrame().  Check if the frame being created is one of the frames marked as dirty in
 -- our list of bad parent frames.  If it is, reconfigure the panel to work with the frame and remove it from the dirty list
 local parentCheckHook = function(...)
 	local _,frame,_,_ = ...
@@ -306,14 +306,14 @@ local function recycleFrame(frame)
 	local kids = { frame:GetChildren() }
 	for _, child in ipairs(kids) do
 		child:SetParent(parents["UIParent"])
- 	end
+	end
 	frame:Hide()
 	frame:SetScript("OnEvent",nil)
 	frame:SetScript("OnUpdate",nil)
 	frame:SetScript("OnShow",nil)
 	frame:SetScript("OnHide",nil)
 	frame:SetScript("OnEnter",nil)
-	frame:SetScript("OnLeave",nil)	
+	frame:SetScript("OnLeave",nil)
 	frame:SetScript("OnSizeChanged",nil)
 	frame:SetScript("OnReceiveDrag",nil)
 	frame:SetScript("OnMouseUp",nil)
@@ -330,7 +330,7 @@ local function injectArt()
 		end
 		for art,path in pairs(kgPanels.db.global.border) do
 			LSM:Register("border",art,path)
-		end		
+		end
 	end
 end
 
@@ -449,13 +449,13 @@ function kgPanels:OnInitialize()
 					end
 				end
 		    end,
-		})		
+		})
 	end
 	-- Hook the CreateFrame function so that kgPanels set to non-existant parent/anchor frames can be updated if/when those frames are created
 	hooksecurefunc("CreateFrame", parentCheckHook)
 	injectArt()
 	if LSM then
-		LSM:RegisterCallback("LibSharedMedia_Registered",self.AddMissingMedia) 
+		LSM:RegisterCallback("LibSharedMedia_Registered",self.AddMissingMedia)
 	end
 	testingTexture = self.eframe:CreateTexture(nil,"PARENT")
 end
@@ -501,7 +501,7 @@ function kgPanels:OnEnable()
 			reParentCheck("UIParent") -- perform a check after the layout has been applied
 			self.eframe:RegisterEvent("ADDON_LOADED", function(addon) checkScriptDeps(addon) end)
 			self.eframe.lastCheck = 0
-			self.eframe:SetScript("OnUpdate",function(frame,elapsed) 
+			self.eframe:SetScript("OnUpdate",function(frame,elapsed)
 				frame.lastCheck = frame.lastCheck + elapsed
 				if checkFrames == 0 then frame:SetScript("OnUpdate",nil) end
 				if frame.lastCheck > 0.05 and checkFrames > 0 then
@@ -557,7 +557,7 @@ function kgPanels:UpgradeDB()
 					panel.bg_insets.r = r
 				end
 			end
-		end	
+		end
 		self.db.global.version = 3
 	end
 	if self.db.global.version == 3 then
@@ -596,7 +596,7 @@ function kgPanels:UpgradeDB()
 						TOPRIGHTCORNER = true,
 						BOTLEFTCORNER = true,
 						BOTRIGHTCORNER = true,
-					}	
+					}
 				}
 			end
 		end
@@ -695,18 +695,18 @@ function kgPanels:ApplyLayout(layoutData)
 						TOPRIGHTCORNER = true,
 						BOTLEFTCORNER = true,
 						BOTRIGHTCORNER = true,
-					}	
+					}
 				}
 			end
 			self:PlaceFrame(name,data,true)
 		end
 		for name,data in pairs(layoutData) do
 			if self.db.global.layout_deps[self.active] and self.db.global.layout_deps[self.active][name] then
-			 	if IsAddOnLoaded(self.db.global.layout_deps[self.active][name]) then		
+				if IsAddOnLoaded(self.db.global.layout_deps[self.active][name]) then
 					self:InitScripts(activeFrames[name],name,data)
 				end
 			else
-				self:InitScripts(activeFrames[name],name,data)			
+				self:InitScripts(activeFrames[name],name,data)
 			end
 		end
 	end
@@ -797,7 +797,7 @@ function kgPanels:PlaceFrame(name,frameData, delay)
 	end
 end
 function kgPanels:InitScripts(frame,name,frameData)
-	if frameData.scripts then		
+	if frameData.scripts then
 	-- do onload first
 		--if frame.scripts_loaded then
 		--	self:Print("Frame scripts already loaded skipping")
@@ -858,7 +858,7 @@ function kgPanels:ResetParent(frame,frameData,name,overrideParent,overrideAnchor
 		frame:SetScale(frameData.scale)
 	end
 	local scale = frame:GetScale()
-	
+
 	local anchor = parents[frameData.anchor]
 	if overrideAnchor then
 		anchor = overrideAnchor
@@ -888,11 +888,11 @@ end
 function kgPanels:ResetTextures(frame,frameData,name)
 	frame.bg:SetTexCoord(0,1,0,1)
 	if frameData.border_advanced.enable and BD then
-	 	BD:EnableEnhancements(frame)
+		BD:EnableEnhancements(frame)
 	else
-		BD:DisableEhancements(frame) 		
+		BD:DisableEhancements(frame)
 	end
-	local ULx,ULy,LLx,LLy,URx,URy,LRx,LRy = frame.bg:GetTexCoord()	
+	local ULx,ULy,LLx,LLy,URx,URy,LRx,LRy = frame.bg:GetTexCoord()
 	--frame.bg:SetTexCoordModifiesRect(false)
 	frame.bg:SetBlendMode(frameData.bg_blend)
 	frame.bg:SetAlpha(frameData.bg_alpha)
@@ -923,7 +923,7 @@ function kgPanels:ResetTextures(frame,frameData,name)
 			frame.bg:SetTexture(nil)
 		end
 	end
-	if frameData.border_texture and strlen(frameData.border_texture) > 0 then 
+	if frameData.border_texture and strlen(frameData.border_texture) > 0 then
 		local path = fetchArt(frameData.border_texture,"border")
 		if frameData.border_texture ~= l_None then
 			local nonePath = fetchArt(l_None,"border")
@@ -942,7 +942,7 @@ function kgPanels:ResetTextures(frame,frameData,name)
 	if frameData.tiling then
 		frame.bg:SetTexture(nil)
 		frame:SetBackdrop({	bgFile = fetchArt(frameData.bg_texture,"background"),edgeFile = fetchArt(frameData.border_texture,"border"),edgeSize = frameData.border_edgeSize,tile = true,tileSize = frameData.tileSize,insets = {left = frameData.bg_insets.l,right = frameData.bg_insets.r,top = frameData.bg_insets.t,bottom = frameData.bg_insets.b}})
-		
+
 		-- check direction
 		if frameData.vert_tile then
 			frame.bg:SetHorizTile(false)
@@ -952,7 +952,7 @@ function kgPanels:ResetTextures(frame,frameData,name)
 			frame.bg:SetHorizTile(true)
 			frame.bg:SetVertTile(false)
 		end
-		
+
 	else
 		frame:SetBackdrop({	bgFile = "",edgeFile = fetchArt(frameData.border_texture,"border"),edgeSize = frameData.border_edgeSize,tile = false,tileSize = 0,insets = {left = 0,right = 0,	top = 0,bottom = 0}})
 	end
@@ -979,11 +979,11 @@ function kgPanels:ResetTextures(frame,frameData,name)
 	frame:SetFrameLevel(frameData.level)
 	frame:SetFrameStrata(frameData.strata)
 	frame.bg:SetDrawLayer("BACKGROUND",frameData.sub_level)
-	
+
 	if frameData.border_advanced.enable and BD then
 		for k,v in pairs(frameData.border_advanced.show) do
 			if v == false then
-				frame:GetBackdropBorderSection(k):Hide()				
+				frame:GetBackdropBorderSection(k):Hide()
 			end
 		end
 	end
@@ -1078,10 +1078,10 @@ function kgPanels:SetupScript(frame,hook,code,name,initial)
 			frame:SetScript("OnMouseDown",funcD())
 		else
 			self:Print(errorMessage)
-		end	
+		end
 		if funcU then
 			frame:SetScript("OnMouseUp",funcU())
-		else 
+		else
 			self:Print(errorMessage)
 		end
 	elseif hook == "CLICK" and strlen(code) < 1 then
@@ -1094,7 +1094,7 @@ function kgPanels:SetupScript(frame,hook,code,name,initial)
 			frame:SetScript("OnSizeChanged",func())
 		else
 			self:Print(errorMessage)
-		end	
+		end
 	elseif hook == "RESIZE" and strlen(code) < 1 then
 		frame:SetScript("OnSizeChanged",nil)
 	end
@@ -1104,7 +1104,7 @@ function kgPanels:SetupScript(frame,hook,code,name,initial)
 			frame:SetScript("OnReceiveDrag",func())
 		else
 			self:Print(errorMessage)
-		end	
+		end
 	elseif hook == "DROP" and strlen(code) < 1 then
 		frame:SetScript("OnReceiveDrag",nil)
 	end
