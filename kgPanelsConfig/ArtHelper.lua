@@ -19,7 +19,7 @@ function kgPanelsConfig:InitArt()
 		if k ~= L["None"] then
 			self:CreateArtMenu("border",k,v,special)
 		end
-	end	
+	end
 end
 
 --[[-----------------------------------------------------------
@@ -47,7 +47,7 @@ end
 		special: is this a special peice of art needed by kgPanels i.e. None and Tooltip
 ]]-------------------------------------------------------------------------------------------
 function kgPanelsConfig:CreateArtMenu(assetType, assetName, assetPath, special)
-	local sanitizedName = self:makeKey(assetName)	
+	local sanitizedName = self:makeKey(assetName)
 	-- See if we should create a button to remove the asset from our database
 	local width = 200
 	local height = 100
@@ -55,7 +55,7 @@ function kgPanelsConfig:CreateArtMenu(assetType, assetName, assetPath, special)
 		width = 75
 		height = 30
 	end
-	
+
 	local tempDelTbl = nil
 	if not special then
 		tempDelTbl =
@@ -68,18 +68,18 @@ function kgPanelsConfig:CreateArtMenu(assetType, assetName, assetPath, special)
 					type = "input",
 					name = L["Artwork Path"],
 					get = function() return self.db.global[assetType][assetName] end,
-					set = function(info,k) 
+					set = function(info,k)
 						self.db.global[assetType][assetName] = k
 						self:ActivateLayout(self.activeLayout)
 						if assetType == "artwork" then
 							self.artLibrary.backgrounds.args[sanitizedName].args.preview = {
 								type = "description",
 								name = "",
-								image = function() 
-									if not self.db.global[assetType][assetName] then 
-										return "" 
-									else 
-										return self.db.global[assetType][assetName] 
+								image = function()
+									if not self.db.global[assetType][assetName] then
+										return ""
+									else
+										return self.db.global[assetType][assetName]
 									end
 								end,
 								imageWidth = width,
@@ -90,11 +90,11 @@ function kgPanelsConfig:CreateArtMenu(assetType, assetName, assetPath, special)
 							self.artLibrary.borders.args[sanitizedName].args.preview = {
 								type = "description",
 								name = "",
-								image = function() 
-									if not self.db.global[assetType][assetName] then 
-										return "" 
-									else 
-										return self.db.global[assetType][assetName] 
+								image = function()
+									if not self.db.global[assetType][assetName] then
+										return ""
+									else
+										return self.db.global[assetType][assetName]
 									end
 								end,
 								imageWidth = width,
@@ -103,7 +103,7 @@ function kgPanelsConfig:CreateArtMenu(assetType, assetName, assetPath, special)
 							}
 						end
 						cfgreg:NotifyChange("kgPanelsConfig")
-				 	end,
+					end,
 					order = 3,
 					width = "full",
 				},
@@ -113,18 +113,18 @@ function kgPanelsConfig:CreateArtMenu(assetType, assetName, assetPath, special)
 					order = 4,
 				},
 				del = {
-					type = "execute", 
-					name = L["Delete"], 
-					desc = L["Delete from Library"], 
-					confirm = true, 
-					confirmText = L["Are you sure?"], 
+					type = "execute",
+					name = L["Delete"],
+					desc = L["Delete from Library"],
+					confirm = true,
+					confirmText = L["Are you sure?"],
 					func = function()
 						-- Remove the asset from the database and our ace option menu
 						if assetType == "artwork" then
-							kgPanels.db.global.artwork[assetName] = nil 
+							kgPanels.db.global.artwork[assetName] = nil
 							self.artLibrary.backgrounds.args[sanitizedName] = nil
 						else
-							kgPanels.db.global.border[assetName] = nil 
+							kgPanels.db.global.border[assetName] = nil
 							self.artLibrary.borders.args[sanitizedName] = nil
 						end
 						kgPanelsConfig:DeleteArt(assetType,assetName)
@@ -134,31 +134,31 @@ function kgPanelsConfig:CreateArtMenu(assetType, assetName, assetPath, special)
 			 -- 	rename = {
 			--		-- rename the artwork
 			--	}
-		  	}
+			}
 		}
 	end
 	-- Create the asset menu table (give a preview)
 	local tempAssetMenu =
-	{ 
-		type = "group", 
-		name = assetName, 
+	{
+		type = "group",
+		name = assetName,
 		desc = "Art Asset",
-		args = 
+		args =
 		{
 			desc = {
 				type = "description",
 				name = L["ART_PREVIEW"],
 				order = 1,
 			},
-			preview = 
+			preview =
 			{
 				type = "description",
 				name = "",
-				image = function() 
-					if not self.db.global[assetType][assetName] then 
-						return "" 
-					else 
-						return self.db.global[assetType][assetName] 
+				image = function()
+					if not self.db.global[assetType][assetName] then
+						return ""
+					else
+						return self.db.global[assetType][assetName]
 					end
 				end,
 				imageWidth = width,
@@ -173,5 +173,5 @@ function kgPanelsConfig:CreateArtMenu(assetType, assetName, assetPath, special)
 		self.artLibrary.backgrounds.args[sanitizedName] = tempAssetMenu
 	else
 		self.artLibrary.borders.args[sanitizedName] = tempAssetMenu
-	end	
+	end
 end

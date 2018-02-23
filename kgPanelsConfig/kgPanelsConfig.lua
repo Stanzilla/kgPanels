@@ -1,10 +1,10 @@
 --[[
-	NOTE: 
+	NOTE:
 	- I removed the temp var locals.  The menus (even in this file) now access the vars using kgPanelsConfig.name.  While this adds an extra table lookup, it's going to be much easier to understand than switching between local vars in this file and addon-scoped vars in the helper files
 	- Why is the art asset database split up into "artwork" and "borders".  It would probably make more sense if it was "background" and "borders" for consistancy
 	- When creating a new art asset, it now gives an error message if you try to make an asset with a name that currently exists.  Might be better to just use the uniqueName() function.  They can rename the asset later if they need to
 
-	
+
 	TODO:
 	-- Probably want to improve upon our menu callback functions
 	-- Implement config panel options
@@ -24,7 +24,7 @@ local activeLayout = nil
 local _importData = nil
 local _importName = nil
 local frameup = false
-local gui = nil 
+local gui = nil
 
 kgPanelsConfig.activeLayout = L["None"]
 local defaultPanelOptions = {
@@ -118,7 +118,7 @@ return {
 					name = L["Addon Settings"],
 					guiInline = true,
 					order = 0,
-					args = {	
+					args = {
 						-- We'll want to enable / disable kgPanels, kgPanelsConfig, and minimapIcon (if it's turned on)
 						enable = {
 							type = "toggle",
@@ -142,7 +142,7 @@ return {
 						},
 						space = {
 							type = "description",
-							name = function() return L["Active Layout: "]..kgPanelsConfig.activeLayout end,	
+							name = function() return L["Active Layout: "]..kgPanelsConfig.activeLayout end,
 							order = 2,
 						},
 						-- code here for profile groups once it comes up in aceDB
@@ -174,14 +174,14 @@ return {
 									type = "execute",
 									name = L["Create"],
 									desc = L["Create a new layout. NOTE: This will change your current layout to the newly created layout."],
-									func = function() 
+									func = function()
 										kgPanelsConfig:RemoveLayout(_layoutName)
 										kgPanelsConfig:CreateLayout(_layoutName)
-										_layoutName = nil 
+										_layoutName = nil
 									end,
-									disabled = function() 
-										return not _layoutName or strlen(_layoutName) < 2 
-									end, 
+									disabled = function()
+										return not _layoutName or strlen(_layoutName) < 2
+									end,
 									order = 1,
 									confirm = function()
 										if kgPanels.db.global.layouts[_layoutName] then
@@ -190,7 +190,7 @@ return {
 										return false
 									end,
 									confirmText = L["A layout with that name already exists. Overwrite?"],
-								},	
+								},
 							},
 						},
 						importLayout = {
@@ -266,7 +266,7 @@ return {
 				backgrounds = {
 					type = "group",
 					name = L["Backgrounds"],
-					args = {},	
+					args = {},
 				},
 				borders = {
 					type = "group",
@@ -284,7 +284,7 @@ return {
 							name = L["Artwork Name"],
 							desc = L["This is the name as it will appear in drops down menus and the side tab."],
 							set = function(info,val) _assetName = val end,
-							get = function() return _assetName end, 
+							get = function() return _assetName end,
 							order = 0,
 						},
 						assetType = {
@@ -311,13 +311,13 @@ return {
 							desc = L["Create a new entry in the Artwork Library"],
 							order = 20,
 							func = function() kgPanelsConfig:CreateArt(_assetType,_assetName,_assetPath); _assetName = nil;_assetType = "artwork";_assetPath = nil end,
-							disabled = function() 
-								return 
+							disabled = function()
+								return
 									_assetPath == nil
 									or _assetName == nil
 									or _assetPath == nil
-									or strlen(_assetPath) < 1 
-									or strlen(_assetName) < 1 
+									or strlen(_assetPath) < 1
+									or strlen(_assetName) < 1
 								end,
 							confirm = function()
 								if kgPanelsConfig.db.global[_assetType][_assetName] then
@@ -330,7 +330,7 @@ return {
 					},
 				},
 			},
-		},		
+		},
 		-- Aside from the filter table, this is basically the same options as an individual panel
 		-- Hide group if no panels exist in current layout
 		defaultPanel = {
@@ -346,7 +346,7 @@ return {
 			name = L["Active Panels"],
 			childGroups = "tree",
 			order = 4,
-			args = {	
+			args = {
 				panelCreation = {
 					type = "group",
 					name = L["Panel Creation"],
@@ -380,7 +380,7 @@ return {
 						space = {
 							type = "description",
 							name = function() return L["Active Layout: "]..kgPanelsConfig.activeLayout end,
-							
+
 							order = 2,
 						},
 						addPanel = {
@@ -451,7 +451,7 @@ return {
 							type = "description",
 							name = L["FAQ_2_1"],
 							order = 1,
-						},						
+						},
 						item2 = {
 							type = "description",
 							name = L["FAQ_2_2"],
@@ -498,7 +498,7 @@ return {
 						item5 = {
 							type = "description",
 							name = L["FAQ_3_5"],
-							order = 5,							
+							order = 5,
 						}
 					}
 				},
@@ -573,7 +573,7 @@ return {
 							type = "description",
 							name = L["FAQ_6_3"],
 							order = 3,
-						},						
+						},
 					}
 				}
 			}
@@ -601,7 +601,7 @@ function kgPanelsConfig:OnInitialize()
 	if LibDualSpec then
 		LibDualSpec:EnhanceOptions(optionTable.args.profile, kgPanels.db)
 	end
-	LibStub("AceConfig-3.0"):RegisterOptionsTable("kgPanelsConfig", optionTable) 
+	LibStub("AceConfig-3.0"):RegisterOptionsTable("kgPanelsConfig", optionTable)
 	-- LAYOUT MENU SHORTCUTS
 	-- Holds layout menus.  Do not flush
 	self.layoutList = optionTable.args.general.args.layouts.args
@@ -667,7 +667,7 @@ function kgPanelsConfig:UpdatePanel(name,w,h,x,y)
 end
 
 --[[
-	Convert any spaces to underscores. 
+	Convert any spaces to underscores.
 --]]
 function kgPanelsConfig:makeKey(key)
 	return string.gsub(key, '(%s+)', function(x) return '_' end)
@@ -699,7 +699,7 @@ function kgPanelsConfig:CreateExport(layoutName)
 		f.statustext:SetText(L["Press Ctrl-A to select the text, then Ctrl-C to copy."])
 	else
 		f.statustext:SetText(L["Press Cmd-A to select the text, then Cmd-C to copy."])
-	end	
+	end
 	f.frame:SetFrameStrata("TOOLTIP")
 end
 function kgPanelsConfig:ImportLayout(name, data)
