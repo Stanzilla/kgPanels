@@ -179,6 +179,6 @@ end
 --[[
 	Remove a layout menu from the database
 ]]
-function kgPanelsConfig:RemoveLayoutMenu(layout)
+function kgPanelsConfig:RemoveLayoutMenu(layoutName)
 	self.layoutList[layoutName] = nil
 end
