@@ -42,7 +42,7 @@ function kgPanelsConfig:CreateLayoutMenu(layoutName)
 		desc = L["Panel Layout"],
 		childGroups = "tree",
 		args = {
-			
+
 			header1 = {
 				type = "description",
 				name = L["Set as Active Layout"],
@@ -60,7 +60,7 @@ function kgPanelsConfig:CreateLayoutMenu(layoutName)
 				name = " ",
 				order = 3,
 			},
-			
+
 			header2 = {
 				type = "description",
 				name = L["Copy Layout To Clipboard"],
@@ -89,8 +89,8 @@ function kgPanelsConfig:CreateLayoutMenu(layoutName)
 				type = "execute",
 				name = L["Delete"],
 				desc = L["Delete this layout from your layout list."],
-				func = function() 
-					kgPanelsConfig:RemoveLayout(layoutName); self.layoutList[sanitizedName] = nil 
+				func = function()
+					kgPanelsConfig:RemoveLayout(layoutName); self.layoutList[sanitizedName] = nil
 				end,
 				order = 8,
 			},

@@ -1,6 +1,6 @@
 --[[
 	Placeholder file
-	
+
 	We're going to want to put our guide frame code here, so it's also LoD without adding anymore filesystem clutter
 ]]
 
@@ -42,7 +42,7 @@ function GuideFrame:GetGuideFrame(name,to,from,anchor)
 		guide.isResizing = false
 		guide.isMoving = false
 		guide:SetParent(frame)
-		guide.panel = name	
+		guide.panel = name
 		-- Create a texture to display a special highlight color when we mouse-over this frame
 		guide.texture = guide:CreateTexture(nil, "HIGHLIGHT")
 		guide.texture:SetAllPoints(guide)
@@ -61,7 +61,7 @@ function GuideFrame:GetGuideFrame(name,to,from,anchor)
 		resizeTexture:SetPoint("BOTTOMRIGHT",-2,2)
 		-- Set scripts to let us move while dragging
 		guide:SetScript("OnMouseDown",function(frame,b) GuideFrame:MouseDownListener(frame,b) end)
-		guide:SetScript("OnMouseUp",function(frame,b) GuideFrame:MouseUpListener(frame,b) end)	
+		guide:SetScript("OnMouseUp",function(frame,b) GuideFrame:MouseUpListener(frame,b) end)
 		guide:Show()
 	end
 	guide.to = to
@@ -79,7 +79,7 @@ end
 --]]
 function GuideFrame:MouseDownListener(frame,button)
 	-- On left-clicks, listen for mouse-dragging
-	if button == "LeftButton" then	
+	if button == "LeftButton" then
 		-- Set vars to figure out if the mouse is in the resize area or not
 		local screenX, screenY = GetCursorPosition()
 		local panelX = frame:GetRight()
@@ -110,7 +110,7 @@ end
 --]]
 function GuideFrame:MouseUpListener(frame)
 	frame:StopMovingOrSizing()
-	frame:SetScript("OnUpdate", nil)	
+	frame:SetScript("OnUpdate", nil)
 	if frame.isResizing then
 		frame.isResizing = false
 	elseif frame.isMoving then
@@ -125,7 +125,7 @@ function GuideFrame:MouseUpListener(frame)
 	local y = (gY * scale) - (pY * pscale)
 	x = x/scale
 	y = y/scale
-	kgPanelsConfig:UpdatePanel(frame.panel,frame:GetWidth(),frame:GetHeight(),x,y)	
+	kgPanelsConfig:UpdatePanel(frame.panel,frame:GetWidth(),frame:GetHeight(),x,y)
 end
 --[[
 -- Listens for guide frame movement
@@ -142,7 +142,7 @@ function GuideFrame:MoveListener(frame)
 	y = y/scale
 	panelFrame:ClearAllPoints()
 	panelFrame:SetPoint(frame.from, frame.anchor, frame.to, x, y)
-	kgPanelsConfig:UpdatePanel(frame.panel,frame:GetWidth(),frame:GetHeight(),x,y)	
+	kgPanelsConfig:UpdatePanel(frame.panel,frame:GetWidth(),frame:GetHeight(),x,y)
 end
 --[[
 -- Listen for guide frame resize
@@ -160,7 +160,7 @@ function GuideFrame:ResizeListener(frame)
 	panelFrame:SetHeight(frame:GetHeight())
 	panelFrame:ClearAllPoints()
 	panelFrame:SetPoint(frame.from, frame.anchor, frame.to, x, y )
-	kgPanelsConfig:UpdatePanel(frame.panel,frame:GetWidth(),frame:GetHeight(),x,y)	
+	kgPanelsConfig:UpdatePanel(frame.panel,frame:GetWidth(),frame:GetHeight(),x,y)
 end
 
 function GuideFrame:GetXY(anchor,frame)

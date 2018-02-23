@@ -79,7 +79,7 @@ if SharedMedia and SharedMedia.HashTable then
 	for k,v in pairs(lst) do
 		borderArt[k]=k
 	end
-	SharedMedia:RegisterCallback("LibSharedMedia_Registered",function() 
+	SharedMedia:RegisterCallback("LibSharedMedia_Registered",function()
 		lst = SharedMedia:HashTable("border")
 		for k,v in pairs(lst) do
 			borderArt[k]=k
@@ -91,7 +91,7 @@ if SharedMedia and SharedMedia.HashTable then
 		lst = SharedMedia:HashTable("background")
 		for k,v in pairs(lst) do
 			bgArt[k] = k
-		end		
+		end
 	end)
 else
 	for k,v in pairs(kgPanels.db.global.artwork) do
@@ -184,7 +184,7 @@ function kgPanelsConfig:CreatePanel(name, data)
 		self.activePanels[panelName] = DeepCopy(kgPanels.db.global.defaultPanel)
 		data = self.activePanels[panelName]
 	else
-		self.activePanels[panelName] = DeepCopy(data)	
+		self.activePanels[panelName] = DeepCopy(data)
 	end
 	self.panelNames[panelName] = panelName
 	kgPanels.db.global.layouts[self.activeLayout][panelName] = self.activePanels[panelName]
@@ -261,7 +261,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 								frame:EnableMouse(val)
 							end
 						end,
-					},					
+					},
 					remove = {
 						type = 'execute',
 						name = L["Remove Panel"],
@@ -387,9 +387,9 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 						name = L["Rename Panel"],
 						desc = L["Change the name of this panel."],
 						order = 8,
-						func =  function() 
+						func =  function()
 							local dc = DeepCopy(kgPanels.db.global.layouts[self.activeLayout][panelName])
-							kgPanels:RemoveFrame(panelName)							
+							kgPanels:RemoveFrame(panelName)
 							kgPanels:PlaceFrame(_rename,dc)
 							kgPanels.db.global.layouts[self.activeLayout][_rename] = dc
 							kgPanels.db.global.layouts[self.activeLayout][panelName] = nil
@@ -437,13 +437,13 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 						desc = L["Set the opacity of this panel."],
 						width = "full",
 						order = 0,
-						min = 0, 
+						min = 0,
 						max = 1,
 						isPercent = true,
-						step = 0.005, 
+						step = 0.005,
 						arg = "bg_alpha",
 					},
-					bgColorStyle = 
+					bgColorStyle =
 					{
 						type='select',
 						name = L["Background Color Style"],
@@ -452,7 +452,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 						order = 10,
 						arg = "bg_style",
 					},
-			
+
 					bgColor = {
 						type = "color",
 						name = L["Background Color"],
@@ -471,8 +471,8 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 							end
 						end
 					},
-					
-					bgGradientStyle = 
+
+					bgGradientStyle =
 					{
 						type='select',
 						name = L["Background Gradient Style"],
@@ -481,7 +481,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 						order = 17,
 						arg = "bg_orientation"
 					},
-					
+
 					bgGradientColor = {
 						type = "color",
 						name = L["Background Gradient Color"],
@@ -500,16 +500,16 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 							end
 						end
 					},
-					
+
 					bgBlendMode = {
 						type = "select",
 						name = L["Background Color Blending"],
 						desc = L["Blend mode for the background color."],
-						values = blend_style, 
+						values = blend_style,
 						order = 19,
 						arg = "bg_blend",
 					},
-					
+
 					bgBorderColor = {
 						type = "color",
 						name = L["Border Color"],
@@ -529,7 +529,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 						end
 					},
 				},
-			},			
+			},
 			positionOpts = {
 				type = "group",
 				name = L["Position Settings"],
@@ -658,7 +658,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 										end
 									end
 								end
-								
+
 							},
 							right={
 								type = "execute",
@@ -688,9 +688,9 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 						name = L["Level"],
 						desc = L["Panel level, for Z-Indexing."],
 						order = 70,
-						min = 0, 
-						max = 20, 
-						step = 1, 
+						min = 0,
+						max = 20,
+						step = 1,
 						get = function(k)
 							if panelData[k.arg] < 0 then
 								panelData[k.arg] = 0
@@ -830,36 +830,36 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 								arg = "bg_texture",
 								width = "full",
 							},
-							rotate = 
+							rotate =
 							{
 								type = 'range',
-								name = L["Rotate"], 
+								name = L["Rotate"],
 								desc = L["Rotate the artwork centered on the middle point."],
 								width = "full",
-								min = 0, 
-								max = 360, 
-								step = 1, 
+								min = 0,
+								max = 360,
+								step = 1,
 								bigStep = 5,
 								order = 5,
 								arg = "rotation"
 							},
-							flipHorizontal = 
+							flipHorizontal =
 							{
 								type = 'toggle',
-								name = L["Flip Horizontally"], 
+								name = L["Flip Horizontally"],
 								desc = L["Mirror this background."],
 								order = 6,
 								arg = "hflip",
 							},
-							flipVertical = 
+							flipVertical =
 							{
 								type = 'toggle',
-								name = L["Flip Vertically"], 
+								name = L["Flip Vertically"],
 								desc = L["Invert the artwork."],
 								order = 7,
 								arg = "vflip"
 							},
-							tiling = 
+							tiling =
 							{
 								type = 'toggle',
 								name = L["Tile Background"],
@@ -882,13 +882,13 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 								desc = L["Tile the background horizontally."],
 								order = 10,
 								arg = "horz_tile",
-								disabled = function() return not (kgPanels.isCata and panelData["tiling"]) end,					
+								disabled = function() return not (kgPanels.isCata and panelData["tiling"]) end,
 							},
 							--]]
 							--[[
 								CODE HERE to TILE base don the new options hor or vert
 							--]]
-							tile_size = 
+							tile_size =
 							{
 								type = 'range',
 								name = L["Tile Size"],
@@ -907,7 +907,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 								end,
 								disabled = function() return not panelData.tiling end,
 							},
-							absolute_bg = 
+							absolute_bg =
 							{
 								type = "toggle",
 								name = L["Custom Coords"],
@@ -921,7 +921,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 								name = L["Custom Coords Configuration"],
 								desc = L["Setup custom Text Coords for your texture."],
 								get = function(info) return tostring(panelData.absolute_bg[info.arg]) end,
-								set = function(info,val) 
+								set = function(info,val)
 									if val then
 										local y = tonumber(val)
 										if y then
@@ -1003,7 +1003,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 							}
 						},
 					},
-					backgroundInsetSize = 
+					backgroundInsetSize =
 					{
 						type = "group",
 						guiInline = true,
@@ -1016,13 +1016,13 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 							panelData.bg_insets[info.arg] = val
 							local frame = kgPanels:FetchFrame(panelName)
 							if frame then
-								kgPanels:ResetTextures(frame,panelData,name)
+								kgPanels:ResetTextures(frame,panelData, name)
 							end
 						end,
 						args = {
 							left = {
 								type = 'input',
-								name = L["Top"], 
+								name = L["Top"],
 								desc = L["Top background inset."],
 								width = "half",
 								usage='10.0',
@@ -1032,7 +1032,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 							},
 							right = {
 								type = 'input',
-								name = L["Left"], 
+								name = L["Left"],
 								desc = L["Left background inset."],
 								width = "half",
 								usage='10.0',
@@ -1042,7 +1042,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 							},
 							top = {
 								type = 'input',
-								name = L["Bottom"], 
+								name = L["Bottom"],
 								desc = L["Bottom background inset."],
 								order = 3,
 								usage='10.0',
@@ -1052,7 +1052,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 							},
 							bottom = {
 								type = 'input',
-								name = L["Right"], 
+								name = L["Right"],
 								desc = L["Right background inset."],
 								width = "half",
 								usage='10.0',
@@ -1061,7 +1061,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 								arg = "r"
 							},
 						},
-					},					
+					},
 					border = {
 						type = "group",
 						name = L["Border Texture"],
@@ -1080,15 +1080,15 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 							},
 						},
 					},
-					borderEdgeSize = 
+					borderEdgeSize =
 					{
 						type = 'range',
-						name = L["Border Edge Size"], 
+						name = L["Border Edge Size"],
 						desc = L["Border edge size, see the FAQ."],
 						width = "full",
-						min = 0, 
-						max = 100, 
-						step = 1, 
+						min = 0,
+						max = 100,
+						step = 1,
 						order = 3,
 						arg = "border_edgeSize",
 					},
@@ -1097,7 +1097,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 						name = L["Advanced Texture Options"],
 						order = 5,
 						get = function(info) return panelData.border_advanced.show[info.arg] end,
-						set = function(info,val) 
+						set = function(info,val)
 							panelData.border_advanced.show[info.arg] = val
 							local frame = kgPanels:FetchFrame(panelName)
 							if frame then
@@ -1112,8 +1112,8 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 								guiInline = true,
 								order = 1,
 								get = function(info) return panelData.border_advanced.enable end,
-								set = function(info,val) 
-									panelData.border_advanced.enable = val 
+								set = function(info,val)
+									panelData.border_advanced.enable = val
 									local frame = kgPanels:FetchFrame(panelName)
 									if frame then
 										kgPanels:ResetTextures(frame,panelData,panelName)
@@ -1191,10 +1191,10 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 								disabled = function() return not panelData.border_advanced.enable end,
 							},
 						}
-					}			
+					}
 				},
 			},
-			
+
 			textOptions = {
 				type = "group",
 				name = L["Text Options"],
@@ -1222,7 +1222,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 								desc = L["Color for the text."],
 								order = 10,
 								get = function() return panelData.text.color.r, panelData.text.color.g, panelData.text.color.b, panelData.text.color.a end,
-								set = function(app,r,g,b,a) 
+								set = function(app,r,g,b,a)
 									panelData.text.color.r = r
 									panelData.text.color.g = g
 									panelData.text.color.b = b
@@ -1235,9 +1235,9 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 								name = L["Font Size"],
 								desc = L["Size of the text in points."],
 								order = 20,
-								min = 6, 
-								max = 30, 
-								step = 1, 
+								min = 6,
+								max = 30,
+								step = 1,
 								get = function() return panelData.text.size end,
 								set = function(app,val) panelData.text.size = val; kgPanels:ResetFont(panelName,panelData.text) end
 							},
@@ -1249,7 +1249,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 								dialogControl = 'LSM30_Font',
 								disabled = function() return SharedMedia == nil end,
 								order = 40,
-								get = function() 
+								get = function()
 									if strlen(panelData.text.font) < 1 then
 										return L["Blizzard"]
 									else
@@ -1299,8 +1299,8 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 								values = horz_just,
 								order = 70,
 								get = function() return panelData.text.justifyH end,
-								set = function(app,key,val ) 
-									panelData.text.justifyH = key; kgPanels:ResetFont(panelName,panelData.text) 
+								set = function(app,key,val )
+									panelData.text.justifyH = key; kgPanels:ResetFont(panelName,panelData.text)
 								end
 							},
 							verticalJustify = {
@@ -1324,10 +1324,10 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 				childGroups = "tree",
 				order = 8,
 				get = function(k) return panelData.scripts[k.arg] end,
-				set = function(k,val) panelData.scripts[k.arg] = val; 
+				set = function(k,val) panelData.scripts[k.arg] = val;
 					local frame = kgPanels:FetchFrame(panelName)
 					if frame then
-						kgPanels:SetupScript(frame,k.arg,val,panelName) 
+						kgPanels:SetupScript(frame,k.arg,val,panelName)
 					end
 				end,
 				args = {
@@ -1374,7 +1374,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 							},
 						},
 					},
-						
+
 					onUpdate = {
 						type = "group",
 						name = L["OnUpdate"],
@@ -1397,7 +1397,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 							},
 						},
 					},
-						
+
 					OnShow = {
 						type = "group",
 						name = L["OnShow"],
@@ -1420,7 +1420,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 							},
 						},
 					},
-						
+
 					OnHide = {
 						type = "group",
 						name = L["OnHide"],
@@ -1443,7 +1443,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 							},
 						},
 					},
-						
+
 					OnEnter = {
 						type = "group",
 						name = L["OnEnter"],
@@ -1465,7 +1465,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 								arg = "ENTER",
 							},
 						},
-					},						
+					},
 					OnLeave = {
 						type = "group",
 						name = L["OnLeave"],
@@ -1586,7 +1586,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 		self.defaultOptions.args.Default.name = tempPanelMenu.name
 		self.defaultOptions.args.Default.desc = tempPanelMenu.desc
 		self.defaultOptions.args.Default.get = tempPanelMenu.get
-		
+
 	else
 		self.panelList[self:makeKey(panelName)] = tempPanelMenu
 	end
