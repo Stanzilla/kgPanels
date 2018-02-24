@@ -172,7 +172,7 @@ local default_backdrop = {bgFile = "",edgeFile = "Interface\\Tooltips\\UI-Toolti
 -- some memorization data (only do the angle math once for a given angle)
 local angles = setmetatable({}, {
 	__index = function(t, k)
-		local k = floor(k % 360)
+		k = floor(k % 360)
 		if k == 0 then
 			t[k] = {0,0,0,1,1,0,1,1}
 			return t[k]
@@ -616,6 +616,7 @@ function kgPanels:CommandLine(input)
 		if loaded then
 			LibStub("AceConfigDialog-3.0"):Open("kgPanelsConfig")
 		else
+			local reason
 			loaded, reason = LoadAddOn("kgPanelsConfig")
 			if loaded then
 				LibStub("AceConfigDialog-3.0"):Open("kgPanelsConfig")
@@ -663,7 +664,7 @@ end
 ]]
 function kgPanels:ActivateLayout(name)
 	if name == l_None then
-		self.active = L_None
+		self.active = l_None
 		self:ApplyLayout(emptyLayout)
 	else
 		self.active = name
@@ -716,7 +717,7 @@ end
 ]]
 function kgPanels:ReParent(name,newParent,newAnchor)
 	if activeFrames[name] then
-		data = self.db.global.layouts[self.active][name]
+		local data = self.db.global.layouts[self.active][name]
 		self:ResetParent(activeFrames[name],data,name,newParent,newAnchor)
 	end
 end
@@ -1072,8 +1073,9 @@ function kgPanels:SetupScript(frame,hook,code,name,initial)
 		frame:SetScript("OnLeave",nil)
 	end
 	if hook == "CLICK" and strlen(code) > 1 then
-		local funcD, errorMessage = loadstring("return function(self,button) "..makeRef(" local pressed=true;").." "..code.." end",name.."_OnClickDown")
-		local funcU, errorMessage = loadstring("return function(self,button) "..makeRef(" local released=true;").." "..code.." end",name.."_OnClickUp")
+		local funcD, funcU, errorMessage
+		funcD, errorMessage = loadstring("return function(self,button) "..makeRef(" local pressed=true;").." "..code.." end",name.."_OnClickDown")
+		funcU, errorMessage = loadstring("return function(self,button) "..makeRef(" local released=true;").." "..code.." end",name.."_OnClickUp")
 		if funcD then
 			frame:SetScript("OnMouseDown",funcD())
 		else
