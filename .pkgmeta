@@ -8,7 +8,7 @@ externals:
     Libs/LibSharedMedia-3.0: https://repos.wowace.com/wow/libsharedmedia-3-0/mainline/trunk/LibSharedMedia-3.0
     Libs/LibStub: https://repos.wowace.com/wow/libstub/mainline/tags/1.0
     Libs/LibDualSpec-1.0: https://repos.wowace.com/wow/libdualspec-1-0
-    Libs/LibBackdrop-1.0: https://repos.wowace.com/wow/libbackdrop-1-0
+    Libs/LibBackdrop-1.0: https://github.com/Stanzilla/LibBackdrop-1.0.git
     kgPanelsConfig/Libs/AceGUI-3.0-SharedMediaWidgets: https://repos.wowace.com/wow/ace-gui-3-0-shared-media-widgets/mainline/trunk
     kgPanelsConfig/Libs/AceDBOptions-3.0: https://repos.wowace.com/wow/ace3/mainline/trunk/AceDBOptions-3.0
     kgPanelsConfig/Libs/AceConfig-3.0: https://repos.wowace.com/wow/ace3/mainline/trunk/AceConfig-3.0
