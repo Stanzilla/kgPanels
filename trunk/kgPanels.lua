@@ -78,9 +78,11 @@ end
 if gameLocale == "deDE" then
 	l_None = "None"
 end
+
 if gameLocale == "esES" then
 	l_None = "None"
 end
+
 if gameLocale == "frFR" then
 	l_None = "Aucun"
 	l_Tooltip = "Bulle d'aide de Blizzard"
@@ -92,20 +94,25 @@ if gameLocale == "frFR" then
 	l_usage = {[[Utilisation : /kgpanels <commande>]],[["config" ouvre la fenêtre de configuration.]],[["activer" active cet addon.]],[["désactiver" désactive cet addon.]],[["modèle" "Nom du modèle" permet de changer de modèle.]]}
 	l_not_found = " introuvable."
 end
+
 if gameLocale == "koKR" then
 	l_None = "None"
 end
+
 if gameLocale == "ruRU" then
 	l_None = "None"
 end
+
 if gameLocale == "zhCN" then
 	l_None = "无"
 	l_Tooltip = "默认提示信息框"
 	l_Dialog = "默认对话框"
 end
+
 if gameLocale == "zhTW" then
 	l_None = "None"
 end
+
 if gameLocale == "ruRU" then
 	l_None = "None"
 end
