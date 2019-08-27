@@ -17,6 +17,10 @@ local L = LibStub("AceLocale-3.0"):GetLocale("kgPanels", false)
 local cfgreg = LibStub("AceConfigRegistry-3.0")
 local serializer = LibStub("AceSerializer-3.0")
 
+local function IsClassic()
+	return WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
+end
+
 local _assetName,_assetPath,_assetType = nil,nil,"artwork"
 local _panelName = nil
 local _layoutName = nil
@@ -597,9 +601,11 @@ function kgPanelsConfig:OnInitialize()
 	-- Register our option table
 	optionTable = self:makeOptions()
 	optionTable.args.profile = LibStub("AceDBOptions-3.0"):GetOptionsTable(kgPanels.db)
-	local LibDualSpec = LibStub('LibDualSpec-1.0')
-	if LibDualSpec then
-		LibDualSpec:EnhanceOptions(optionTable.args.profile, kgPanels.db)
+	if not IsClassic() then
+		local LibDualSpec = LibStub('LibDualSpec-1.0')
+		if LibDualSpec then
+			LibDualSpec:EnhanceOptions(optionTable.args.profile, kgPanels.db)
+		end
 	end
 	LibStub("AceConfig-3.0"):RegisterOptionsTable("kgPanelsConfig", optionTable)
 	-- LAYOUT MENU SHORTCUTS

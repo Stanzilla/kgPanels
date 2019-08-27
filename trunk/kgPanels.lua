@@ -4,6 +4,11 @@ All Hello Kitty intellectual property and materials are © Sanrio
 local kgPanels = LibStub("AceAddon-3.0"):NewAddon("kgPanels", "AceConsole-3.0")
 local LSM = LibStub:GetLibrary("LibSharedMedia-3.0",true)
 local BD = LibStub:GetLibrary("LibBackdrop-1.0",true)
+
+local function IsClassic()
+	return WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
+end
+
 --[[
 	some defaults
 ]]
@@ -432,9 +437,11 @@ local launcher
 function kgPanels:OnInitialize()
 	self.db = LibStub("AceDB-3.0"):New("kgPanelsDB", dbDefaults, "Default")
 	self:UpgradeDB()
-	local LibDualSpec = LibStub('LibDualSpec-1.0',true)
-	if LibDualSpec then
-		LibDualSpec:EnhanceDatabase(self.db, "kgPanels")
+	if not IsClassic then
+		local LibDualSpec = LibStub('LibDualSpec-1.0',true)
+		if LibDualSpec then
+			LibDualSpec:EnhanceDatabase(self.db, "kgPanels")
+		end
 	end
 	self:RegisterChatCommand("kgPanels","CommandLine",true,true)
 	self.parents = parents
