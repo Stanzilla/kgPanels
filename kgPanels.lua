@@ -397,7 +397,7 @@ local function getFrame()
 		frame:SetParent(UIParent)
 		frameCache[frame] = nil
 	else
-		frame = CreateFrame("Frame","kgPanel"..panelIndex,parents["UIParent"])
+		frame = CreateFrame("Frame","kgPanel"..panelIndex,parents["UIParent"], BackdropTemplateMixin and "BackdropTemplate")
 		frame.bg = frame:CreateTexture(nil, "PARENT")
 		frame.text = frame:CreateFontString(nil, "OVERLAY");
 		panelIndex = panelIndex + 1

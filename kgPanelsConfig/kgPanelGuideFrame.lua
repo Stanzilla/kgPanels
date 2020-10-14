@@ -31,7 +31,7 @@ function GuideFrame:GetGuideFrame(name,to,from,anchor)
 		guide:Show()
 		guideFrames[guide] = nil
 	else
-		guide = CreateFrame("Frame", nil, frame)
+		guide = CreateFrame("Frame", nil, frame, BackdropTemplateMixin and "BackdropTemplate")
 		guide:EnableMouse(true)
 		guide:SetResizable(true)
 		guide:SetMovable(true)
