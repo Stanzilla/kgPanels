@@ -7,7 +7,7 @@
 	<Include file="Libs\AceConsole-3.0\AceConsole-3.0.xml"/>
 	<Include file="Libs\LibSharedMedia-3.0\lib.xml"/>
 	<Script file="Libs\LibBackdrop-1.0\LibBackdrop-1.0.lua"/>
-	<!--@non-retail@
+	<!--@retail@-->
 	<Script file="Libs\LibDualSpec-1.0\LibDualSpec-1.0.lua"/>
-	@end-non-retail@-->
+	<!--@end-retail@-->
 </Ui>
