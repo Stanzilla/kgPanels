@@ -9,6 +9,10 @@ local function IsClassic()
 	return WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
 end
 
+local function IsRetail()
+	return WOW_PROJECT_ID == WOW_PROJECT_MAINLINE
+end
+
 --[[
 	some defaults
 ]]
@@ -437,7 +441,7 @@ local launcher
 function kgPanels:OnInitialize()
 	self.db = LibStub("AceDB-3.0"):New("kgPanelsDB", dbDefaults, "Default")
 	self:UpgradeDB()
-	if not IsClassic() then
+	if IsRetail() then
 		local LibDualSpec = LibStub('LibDualSpec-1.0',true)
 		if LibDualSpec then
 			LibDualSpec:EnhanceDatabase(self.db, "kgPanels")
