@@ -21,6 +21,10 @@ local function IsClassic()
 	return WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
 end
 
+local function IsRetail()
+	return WOW_PROJECT_ID == WOW_PROJECT_MAINLINE
+end
+
 local _assetName,_assetPath,_assetType = nil,nil,"artwork"
 local _panelName = nil
 local _layoutName = nil
@@ -586,8 +590,6 @@ return {
 }
 end
 
-
-
 --[[
 	Config addon has been loaded
 ]]
@@ -601,7 +603,7 @@ function kgPanelsConfig:OnInitialize()
 	-- Register our option table
 	optionTable = self:makeOptions()
 	optionTable.args.profile = LibStub("AceDBOptions-3.0"):GetOptionsTable(kgPanels.db)
-	if not IsClassic() then
+	if IsRetail() then
 		local LibDualSpec = LibStub('LibDualSpec-1.0')
 		if LibDualSpec then
 			LibDualSpec:EnhanceOptions(optionTable.args.profile, kgPanels.db)
