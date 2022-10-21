@@ -402,7 +402,7 @@ local function getFrame()
 		frameCache[frame] = nil
 	else
 		frame = CreateFrame("Frame","kgPanel"..panelIndex,parents["UIParent"], BackdropTemplateMixin and "BackdropTemplate")
-		frame.bg = frame:CreateTexture(nil, "PARENT")
+		frame.bg = frame:CreateTexture(nil, "BACKGROUND")
 		frame.text = frame:CreateFontString(nil, "OVERLAY");
 		panelIndex = panelIndex + 1
 		if BD then
@@ -475,7 +475,7 @@ function kgPanels:OnInitialize()
 	if LSM then
 		LSM:RegisterCallback("LibSharedMedia_Registered",self.AddMissingMedia)
 	end
-	testingTexture = self.eframe:CreateTexture(nil,"PARENT")
+	testingTexture = self.eframe:CreateTexture(nil,"BACKGROUND")
 end
 
 function kgPanels:AddMissingMedia(mediaType, key)
@@ -918,10 +918,10 @@ function kgPanels:ResetTextures(frame,frameData,name)
 	-- need to adjust background alpha to be multiplicitive of the main frame alpha
 	local alpha_override = frameData.bg_alpha
 	if frameData.bg_style == "SOLID" then
-		frame.bg:SetGradientAlpha(frameData.bg_orientation,frameData.bg_color.r,frameData.bg_color.g,frameData.bg_color.b,min(frameData.bg_color.a,alpha_override),frameData.bg_color.r,frameData.bg_color.g,frameData.bg_color.b,min(frameData.bg_color.a,alpha_override))
+		frame.bg:SetGradient(frameData.bg_orientation, CreateColor(frameData.bg_color.r,frameData.bg_color.g,frameData.bg_color.b,min(frameData.bg_color.a,alpha_override)), CreateColor(frameData.bg_color.r,frameData.bg_color.g,frameData.bg_color.b,min(frameData.bg_color.a,alpha_override)))
 		frame.bg:SetTexture(frameData.bg_color.r,frameData.bg_color.g,frameData.bg_color.b,min(frameData.bg_color.a,alpha_override))
 	elseif frameData.bg_style == "GRADIENT" then
-		frame.bg:SetGradientAlpha(frameData.bg_orientation,frameData.bg_color.r,frameData.bg_color.g,frameData.bg_color.b,min(frameData.bg_color.a,alpha_override),frameData.gradient_color.r,frameData.gradient_color.g,frameData.gradient_color.b,min(frameData.gradient_color.a,alpha_override))
+		frame.bg:SetGradient(frameData.bg_orientation, CreateColor(frameData.bg_color.r,frameData.bg_color.g,frameData.bg_color.b,min(frameData.bg_color.a,alpha_override)), CreateColor(frameData.gradient_color.r,frameData.gradient_color.g,frameData.gradient_color.b,min(frameData.gradient_color.a,alpha_override)))
 		frame.bg:SetTexture(1,1,1,1)
 	end
 	if frameData.bg_texture and strlen(frameData.bg_texture) > 0 then
