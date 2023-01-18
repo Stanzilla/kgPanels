@@ -1,7 +1,7 @@
-## Interface: 100000
+## Interface: 100002
 ## Interface-Classic: 11307
 ## Interface-BCC: 20501
-## Interface-WotLK: 30400
+## Interface-WotLK: 30401
 ## Notes: Create panels for customizing your UI, sucessor to eePanels
 ## Title: kgPanels
 ## Author: kagaro
