@@ -27,7 +27,7 @@ jobs:
         path: .release/
 
     - name: Create Classic Package
-      run: curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | bash -s -- -d -z -g 1.13.2 -m .pkgmeta-classic
+      run: curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | bash -s -- -d -z -g classic -m .pkgmeta-classic
       env:
         CF_API_KEY: ${{ secrets.CF_API_KEY }}
         GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
@@ -35,4 +35,15 @@ jobs:
     - uses: actions/upload-artifact@master
       with:
         name: kgPanels-PR-${{ github.head_ref }}-classic
+        path: .release/
+
+    - name: Create Wrath Package
+      run: curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | bash -s -- -d -z -g wrath -m .pkgmeta
+      env:
+        CF_API_KEY: ${{ secrets.CF_API_KEY }}
+        GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
+
+    - uses: actions/upload-artifact@master
+      with:
+        name: kgPanels-PR-${{ github.head_ref }}-wrath
         path: .release/
