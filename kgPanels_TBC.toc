@@ -1,4 +1,4 @@
-## Interface: 100002
+## Interface: 20504
 ## Notes: Create panels for customizing your UI, sucessor to eePanels
 ## Title: kgPanels
 ## Author: kagaro
@@ -13,6 +13,5 @@
 #@no-lib-strip@
 embeds.xml
 #@end-no-lib-strip@
-# Client flavor specific libs
-Libs\LibDualSpec-1.0\LibDualSpec-1.0.lua
+
 kgPanels.lua

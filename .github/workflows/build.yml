@@ -14,31 +14,13 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Install and run Luacheck
-        run: |
-          sudo apt-get install luarocks
-          luarocks install --local luacheck
-          /home/runner/.luarocks/bin/luacheck . --no-color -qo "011"
+        uses: nebularg/actions-luacheck@v1
+        with:
+          args: "--no-color -qo '011'"
+          annotate: warning
 
-      - name: Create Retail Package
-        run: curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | bash
-        env:
-          CF_API_KEY: ${{ secrets.CF_API_KEY }}
-          GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Create Classic Package
-        run: curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | bash -s -- -g classic -m .pkgmeta-classic
-        env:
-          CF_API_KEY: ${{ secrets.CF_API_KEY }}
-          GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Create BCC Package
-        run: curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | bash -s -- -g bcc -m .pkgmeta-classic
-        env:
-          CF_API_KEY: ${{ secrets.CF_API_KEY }}
-          GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Create Wrath Package
-        run: curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | bash -s -- -g wrath -m .pkgmeta
+      - name: Create Package
+        uses: BigWigsMods/packager@v2
         env:
           CF_API_KEY: ${{ secrets.CF_API_KEY }}
           GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
