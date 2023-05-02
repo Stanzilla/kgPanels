@@ -436,7 +436,6 @@ local function getFrame()
 	frame:Show()
 	return frame
 end
-local launcher
 
 function kgPanels:OnInitialize()
 	self.db = LibStub("AceDB-3.0"):New("kgPanelsDB", dbDefaults, "Default")

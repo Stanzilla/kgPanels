@@ -5,6 +5,7 @@
 ## SavedVariables: kgPanelsDB
 ## X-Category: Interface Enhancements
 ## Version: @project-version@
+## IconTexture: 133006
 ## X-Email: sal.scotto@gmail.com
 ## X-License: All Rights Reserved
 ## X-Curse-Project-ID: 14995
