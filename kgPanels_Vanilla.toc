@@ -11,8 +11,6 @@
 ## X-Curse-Project-ID: 14995
 ## OptionalDeps: Ace3, LibSharedMedia-3.0, LibDataBroker-1.1, LibDualSpec-1.0, LibBackdrop-1.0
 
-#@no-lib-strip@
 embeds.xml
-#@end-no-lib-strip@
 
 kgPanels.lua
