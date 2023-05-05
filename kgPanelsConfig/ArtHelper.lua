@@ -26,7 +26,7 @@ end
 	Create a new art asset, and generate a panel for it
 	params:
 		assetType: border|artwork
-		assetName: What to call thsi artwork
+		assetName: What to call this artwork
 		assetPath: filesystem path to the artwork
 ]]-------------------------------------------------------------
 function kgPanelsConfig:CreateArt(assetType, assetName, assetPath)
@@ -44,7 +44,7 @@ end
 		assetType: border|artwork
 		assetName: user supplied name of this asset
 		assetPath: path ont he filesystem for this art
-		special: is this a special peice of art needed by kgPanels i.e. None and Tooltip
+		special: is this a special piece of art needed by kgPanels i.e. None and Tooltip
 ]]-------------------------------------------------------------------------------------------
 function kgPanelsConfig:CreateArtMenu(assetType, assetName, assetPath, special)
 	local sanitizedName = self:makeKey(assetName)

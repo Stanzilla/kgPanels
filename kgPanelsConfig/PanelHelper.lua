@@ -310,7 +310,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 						desc = " ",
 						order = 6,
 					},
-					perfom = {
+					perform = {
 						type = "execute",
 						name = L["Paste"],
 						desc = L["Perform a paste."],

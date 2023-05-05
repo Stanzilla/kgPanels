@@ -5,8 +5,8 @@
 ]]
 
 --[[------------------------------------------------------------
-	Most of this module has been taken verbatium from eePanels
-	why re-invent the wheel if you dont need to.
+	Most of this module has been taken verbatim from eePanels
+	why re-invent the wheel if you don't need to.
 --------------------------------------------------------------]]
 local kgPanels = LibStub("AceAddon-3.0"):GetAddon("kgPanels")
 local GuideFrame = kgPanels:NewModule("GuideFrame")

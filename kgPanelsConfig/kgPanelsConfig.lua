@@ -307,7 +307,7 @@ return {
 						assetPath = {
 							type = "input",
 							name = L["Artwork Path"],
-							desc = L["This is the path to the texture you wish to add. NOTE: this path must be realtive to the WoW folder and seperated by '\\\\'"],
+							desc = L["This is the path to the texture you wish to add. NOTE: this path must be relative to the WoW folder and seperated by '\\\\'"],
 							width = "full",
 							set = function(info,val) _assetPath = val end,
 							get = function() return _assetPath end,

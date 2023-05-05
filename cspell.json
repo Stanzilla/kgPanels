@@ -1,10 +1,14 @@
 {
     "words": [
         "aname",
+        "anch",
         "atype",
+        "cffffffff",
+        "cfgreg",
         "dbref",
         "eframe",
         "FRIZQT",
+        "getfenv",
         "hflip",
         "Horiz",
         "horz",
@@ -12,6 +16,8 @@
         "Localizers",
         "manchor",
         "mparent",
+        "pscale",
+        "tname",
         "upvalues",
         "vflip"
     ]
