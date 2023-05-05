@@ -1,7 +1,7 @@
 --[[
 	NOTE:
 	- I removed the temp var locals.  The menus (even in this file) now access the vars using kgPanelsConfig.name.  While this adds an extra table lookup, it's going to be much easier to understand than switching between local vars in this file and addon-scoped vars in the helper files
-	- Why is the art asset database split up into "artwork" and "borders".  It would probably make more sense if it was "background" and "borders" for consistancy
+	- Why is the art asset database split up into "artwork" and "borders".  It would probably make more sense if it was "background" and "borders" for consistency
 	- When creating a new art asset, it now gives an error message if you try to make an asset with a name that currently exists.  Might be better to just use the uniqueName() function.  They can rename the asset later if they need to
 
 
@@ -727,7 +727,7 @@ function kgPanelsConfig:ImportEELayout(layout_name)
 	local dbref = kgPanels.db.global.layouts[layout_name]
 	local eep = {}
 	for i,v in ipairs(eePanels2.db.profile.panels) do
-		local name = v.name or "untitled"..i
+		local name = (v.name or "untitled")..i
 		eep["eePanel"..i] = name
 		dbref[name] = DeepCopy(defaultPanelOptions)
 		dbref[name]["strata"] = v.strata

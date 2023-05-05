@@ -255,7 +255,7 @@ local function reParentCheck(newframe)
 		end
 		local isPercents = strmatch(kgPanels.db.global.layouts[kgPanels.active][frame].width, "%d+%.?%d*%%") or strmatch(kgPanels.db.global.layouts[kgPanels.active][frame].height, "%d+%.?%d*%%")
 		if pf or mparent == newframe then -- the frame we want just got created
-			-- make sure we dont parent to outselves
+			-- make sure we don't parent to outselves
 			if activeFrames[frame] == pf then error("Attempting to parent frame to self") end
 			if pf then
 				if (isPercents and pf:GetWidth() > 0 and pf:GetHeight() > 0) or not isPercents then
@@ -291,7 +291,7 @@ local function reParentCheck(newframe)
 			activeFrames[frame].scripts_loaded = false
 			executeScripts(activeFrames[frame],kgPanels.db.global.layouts[kgPanels.active][frame],frame)
 		elseif parents[manchor] or manchor == newframe then -- the frame we want just got created
-			-- make sure we dont anchor to outselves
+			-- make sure we don't anchor to outselves
 			if activeFrames[frame] == parents[manchor] then error("Attempting to anchor frame to self") end
 			if parents[manchor] then
 				kgPanels:ResetParent(activeFrames[frame],kgPanels.db.global.layouts[kgPanels.active][frame],frame)
@@ -307,7 +307,7 @@ local function reParentCheck(newframe)
 	end
 end
 
--- Called from securly hooked CreateFrame().  Check if the frame being created is one of the frames marked as dirty in
+-- Called from securely hooked CreateFrame().  Check if the frame being created is one of the frames marked as dirty in
 -- our list of bad parent frames.  If it is, reconfigure the panel to work with the frame and remove it from the dirty list
 local parentCheckHook = function(...)
 	local _,frame,_,_ = ...
@@ -318,7 +318,7 @@ end
 
 
 local function recycleFrame(frame)
-	-- if we delete a frame, reparent the children to UIParent so they dont just disappear
+	-- if we delete a frame, reparent the children to UIParent so they don't just disappear
 	local kids = { frame:GetChildren() }
 	for _, child in ipairs(kids) do
 		child:SetParent(parents["UIParent"])
@@ -387,7 +387,7 @@ local function fetchFont(font)
 	end
 	return nil
 end
---[[ Helper function for Config so i dont duplicate the code again ]]
+--[[ Helper function for Config so i don't duplicate the code again ]]
 function kgPanels:FetchArt(art,artType)
 	return fetchArt(art,artType)
 end
@@ -842,7 +842,7 @@ function kgPanels:ResetParent(frame,frameData,name,overrideParent,overrideAnchor
 	end
 	if not parent then
 		-- are we trying to parent ot one of our other layout frames?
-		-- dont allow self parenting
+		-- don't allow self parenting
 		if activeFrames[frameData.parent] and activeFrames[frameData.parent] ~= frame then
 			parent = activeFrames[frameData.parent]
 		else
@@ -885,8 +885,8 @@ function kgPanels:ResetParent(frame,frameData,name,overrideParent,overrideAnchor
 	if anchor then
 		frame:SetPoint(frameData.anchorFrom,anchor,frameData.anchorTo,frameData.x/scale,frameData.y/scale)
 	else
-		-- check to see if we are tryin to parent of own of our own frames
-		-- dont all self refering anchors
+		-- check to see if we are trying to parent of own of our own frames
+		-- don't all self refering anchors
 		if activeFrames[frameData.anchor] and activeFrames[frameData.anchor] ~= frame then
 			frame:SetPoint(frameData.anchorFrom,activeFrames[frameData.anchor],frameData.anchorTo,frameData.x/scale,frameData.y/scale)
 		else
@@ -908,13 +908,13 @@ function kgPanels:ResetTextures(frame,frameData,name)
 	if frameData.border_advanced.enable and BD then
 		BD:EnableEnhancements(frame)
 	else
-		BD:DisableEhancements(frame)
+		BD:DisableEnhancements(frame)
 	end
 	local ULx,ULy,LLx,LLy,URx,URy,LRx,LRy = frame.bg:GetTexCoord()
 	--frame.bg:SetTexCoordModifiesRect(false)
 	frame.bg:SetBlendMode(frameData.bg_blend)
 	frame.bg:SetAlpha(frameData.bg_alpha)
-	-- need to adjust background alpha to be multiplicitive of the main frame alpha
+	-- need to adjust background alpha to be multiplicative of the main frame alpha
 	local alpha_override = frameData.bg_alpha
 	if frameData.bg_style == "SOLID" then
 		frame.bg:SetGradient(frameData.bg_orientation, CreateColor(frameData.bg_color.r,frameData.bg_color.g,frameData.bg_color.b,min(frameData.bg_color.a,alpha_override)), CreateColor(frameData.bg_color.r,frameData.bg_color.g,frameData.bg_color.b,min(frameData.bg_color.a,alpha_override)))
