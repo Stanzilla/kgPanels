@@ -1,0 +1,41 @@
+{
+	"runtime.version": "Lua 5.1",
+	"workspace.ignoreDir": [
+		".vscode"
+	],
+	"diagnostics.disable": [
+		"lowercase-global",
+		"deprecated",
+		"redundant-parameter",
+		"need-check-nil",
+		"undefined-field",
+		"cast-type-mismatch",
+		"param-type-mismatch",
+		"assign-type-mismatch",
+		"return-type-mismatch"
+	],
+	"diagnostics.globals": [
+		"BackdropTemplateMixin",
+		"cos",
+		"CreateColor",
+		"CreateFrame",
+		"EnumerateFrames",
+		"GameFontHighlightSmall",
+		"GetCursorPosition",
+		"getglobal",
+		"GetLocale",
+		"hooksecurefunc",
+		"IsAddOnLoaded",
+		"IsMacClient",
+		"LoadAddOn",
+		"sin",
+		"strlen",
+		"strtrim",
+		"strupper",
+		"UIParent",
+		"WOW_PROJECT_CLASSIC",
+		"WOW_PROJECT_ID",
+		"WOW_PROJECT_MAINLINE",
+		"LibStub"
+	]
+}
