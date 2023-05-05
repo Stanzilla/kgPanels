@@ -31,7 +31,6 @@ local _layoutName = nil
 local activeLayout = nil
 local _importData = nil
 local _importName = nil
-local frameup = false
 local gui = nil
 
 kgPanelsConfig.activeLayout = L["None"]
@@ -246,18 +245,6 @@ return {
 										return kgPanels.db.global.layouts[_importName] ~= nil
 									end,
 									confirmText = L["A layout with that name already exists. Overwrite?"],
-								},
-								import_eepanels = {
-									type = "execute",
-									name = L["Import from eePanels2"],
-									desc = L["Import panels from eePanels2"],
-									order = 60,
-									disabled = function() return _importName == nil or strlen(_importName) < 2 or not eePanels2 end,
-									confirm = function()
-										return kgPanels.db.global.layouts[_importName] ~= nil
-									end,
-									confirmText = L["A layout with that name already exists. Overwrite?"],
-									func = function() kgPanelsConfig:ImportEELayout(_importName) end,
 								}
 							},
 						},
@@ -655,7 +642,7 @@ function kgPanelsConfig:uniqueName(name, tbl, val)
 	if val > 0 then checkName = name..val end
 	-- Name collided, get a new one
 	if tbl[checkName] ~= nil then
-		return uniqueName(name, tbl, val+1)
+		return kgPanelsConfig:uniqueName(name, tbl, val+1)
 	end
 	-- Name is unique, send it back
 	if val > 0 then
@@ -722,68 +709,6 @@ function kgPanelsConfig:ImportLayout(name, data)
 	end
 end
 
-function kgPanelsConfig:ImportEELayout(layout_name)
-	kgPanels.db.global.layouts[layout_name] = {}
-	local dbref = kgPanels.db.global.layouts[layout_name]
-	local eep = {}
-	for i,v in ipairs(eePanels2.db.profile.panels) do
-		local name = (v.name or "untitled")..i
-		eep["eePanel"..i] = name
-		dbref[name] = DeepCopy(defaultPanelOptions)
-		dbref[name]["strata"] = v.strata
-		dbref[name]["anchorTo"] = v.anchorTo
-		dbref[name]["parent"] = eep[v.parent] or v.parent
-		dbref[name]["border_color"] = v.border.color
-		dbref[name]["anchor"] = eep[v.anchor] or v.anchor
-		dbref[name]["bg_orientation"] = v.background.gradient.orientation
-		dbref[name]["gradient_color"] = v.background.gradient.color
-		dbref[name]["bg_blend"] = v.background.blend
-		dbref[name]["bg_insets"] = v.background.insetSize
-		dbref[name]["bg_color"] = v.background.color
-		dbref[name]["border_edgeSize"] = v.border.edgeSize
-		dbref[name]["anchorFrom"] = v.anchorFrom
-		dbref[name]["mouse"] = v.mouse
-		dbref[name]["level"] = v.level
-		dbref[name]["width"] = v.width
-		dbref[name]["height"] = v.height
-		dbref[name]["x"] = v.x
-		dbref[name]["y"] = v.y
-		dbref[name]["scale"] = v.scale
-		dbref[name]["bg_alpha"] = v.background.texture.alpha
-		dbref[name]["bg_style"] = strupper(v.background.style)
-		dbref[name]["vflip"] = false
-		dbref[name]["hflip"] = false
-		dbref[name]["rotation"] = 0
-		dbref[name]["text"]["size"] = v.text.size or 12
-		dbref[name]["text"]["text"] = v.text.text
-		dbref[name]["tiling"] = v.background.tiling
-		dbref[name]["tileSize"] = v.background.tileSize
-		if v.border.texture and v.border.media and kgPanels:FetchArt(v.border.media,"border") then
-			dbref[name]["border_texture"] = v.border.media
-		elseif v.border.texture and (v.border.texture ~= "Interface\\None" or strlen(v.border.texture) < 1) then
-			dbref[name]["border_texture"]=name.." border"
-			kgPanels.db.global.border[name.." border"] = v.border.texture
-			kgPanelsConfig:InjectArt("border",name.." border")
-		end
-		if v.background.texture.texture and v.background.texture.media and kgPanels:FetchArt(v.background.texture.media,"background") then
-			dbref[name]["bg_texture"] = v.background.texture.media
-			dbref[name].bg_blend = "BLEND"
-			dbref[name].bg_style = "NONE"
-		elseif v.background.texture.texture and (v.background.texture.texture ~= "Interface\\None" or strlen(v.background.texture.texture) < 1) then
-			dbref[name]["bg_texture"] = name.." background"
-			dbref[name].bg_blend = "BLEND"
-			dbref[name].bg_style = "NONE"
-			kgPanels.db.global.artwork[name.." background"] = v.background.texture.texture
-			kgPanelsConfig:InjectArt("artwork",name.." background")
-		end
-	end
-	self:CreateLayoutMenu(layout_name)
-	self:ActivateLayout(layout_name)
-	eePanels2:OnDisable()
-	kgPanels:Print(L["Import complete, eePanels is now OFF, remember to disable or rmove eePanels2"])
-end
-
-
 function kgPanelsConfig:ShowFrames()
 	gui = gui or LibStub("AceGUI-3.0")
 	local finder = gui:Create("Frame")
@@ -812,7 +737,6 @@ function kgPanelsConfig:ShowFrames()
 	finder:SetWidth(600)
 	finder:SetHeight(300)
 	finder:Show()
-	frameup = true
 	finder.line1:Hide()
 	finder.line2:Hide()
 	finder.frame:SetFrameStrata("TOOLTIP")
