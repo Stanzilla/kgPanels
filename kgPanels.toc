@@ -1,4 +1,4 @@
-## Interface: 100100
+## Interface: 100207
 ## Notes: Create panels for customizing your UI, sucessor to eePanels
 ## Title: kgPanels
 ## Author: kagaro
@@ -9,6 +9,7 @@
 ## X-Email: sal.scotto@gmail.com
 ## X-License: All Rights Reserved
 ## X-Curse-Project-ID: 14995
+## X-Wago-ID: aNDm846o
 ## OptionalDeps: Ace3, LibSharedMedia-3.0, LibDataBroker-1.1, LibDualSpec-1.0, LibBackdrop-1.0
 
 embeds.xml
