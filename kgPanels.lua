@@ -178,7 +178,7 @@ local emptyLayout = {}
 local strmatch = string.match
 local tonumber = tonumber
 local ipairs = ipairs
-local IsAddOnLoaded = IsAddOnLoaded
+local IsAddOnLoaded = C_AddOns.IsAddOnLoaded
 local checkFrames = 0
 local testingTexture = nil
 
@@ -460,7 +460,7 @@ function kgPanels:OnInitialize()
 				if loaded then
 					LibStub("AceConfigDialog-3.0"):Open("kgPanelsConfig")
 				else
-					loaded, reason = LoadAddOn("kgPanelsConfig")
+					loaded, reason = C_AddOns.LoadAddOn("kgPanelsConfig")
 					if loaded then
 						LibStub("AceConfigDialog-3.0"):Open("kgPanelsConfig")
 					end
@@ -634,7 +634,7 @@ function kgPanels:CommandLine(input)
 			LibStub("AceConfigDialog-3.0"):Open("kgPanelsConfig")
 		else
 			local reason
-			loaded, reason = LoadAddOn("kgPanelsConfig")
+			loaded, reason = C_AddOns.LoadAddOn("kgPanelsConfig")
 			if loaded then
 				LibStub("AceConfigDialog-3.0"):Open("kgPanelsConfig")
 			else
