@@ -178,8 +178,8 @@ local emptyLayout = {}
 local strmatch = string.match
 local tonumber = tonumber
 local ipairs = ipairs
-local IsAddOnLoaded = C_AddOns.IsAddOnLoaded or IsAddOnLoaded
-local LoadAddOn = C_AddOns.LoadAddOn or LoadAddOn
+local IsAddOnLoaded = C_AddOns and C_AddOns.IsAddOnLoaded or IsAddOnLoaded
+local LoadAddOn = C_AddOns and C_AddOns.LoadAddOn or LoadAddOn
 local checkFrames = 0
 local testingTexture = nil
 
