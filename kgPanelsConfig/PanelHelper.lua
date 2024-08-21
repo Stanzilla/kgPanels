@@ -1274,7 +1274,7 @@ function kgPanelsConfig:CreatePanelMenu(panelName, panelData, isDefault)
 							xOffset = {
 								type = "input",
 								name = L["X Offset"],
-								desc = L["X offset from center. NOTE: positive for up, negative for down."],
+								desc = L["X offset from center. NOTE: postive for up, negative for down."],
 								order = 50,
 								usage='10',
 								--pattern = "%d+",
